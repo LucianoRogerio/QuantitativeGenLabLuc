@@ -1,0 +1,915 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="Kelly Robbins" />
+
+
+<title>Simulating data and R basics</title>
+
+<script src="site_libs/header-attrs-2.11/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+
+<link rel="icon" href="https://github.com/workflowr/workflowr-assets/raw/main/img/reproducible.png">
+<!-- Add a small amount of space between sections. -->
+<style type="text/css">
+div.section {
+  padding-top: 12px;
+}
+</style>
+
+
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.tab('show');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">QuantitativeGen</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="Simulate.html">Simulate</a>
+</li>
+<li>
+  <a href="about.html">About</a>
+</li>
+<li>
+  <a href="license.html">License</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">Simulating data and R basics</h1>
+<h4 class="author">Kelly Robbins</h4>
+<h4 class="date">1/24/2022</h4>
+
+</div>
+
+
+<p>
+<button type="button" class="btn btn-default btn-workflowr btn-workflowr-report" data-toggle="collapse" data-target="#workflowr-report">
+<span class="glyphicon glyphicon-list" aria-hidden="true"></span> workflowr <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
+</button>
+</p>
+<div id="workflowr-report" class="collapse">
+<ul class="nav nav-tabs">
+<li class="active">
+<a data-toggle="tab" href="#summary">Summary</a>
+</li>
+<li>
+<a data-toggle="tab" href="#checks"> Checks <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> </a>
+</li>
+<li>
+<a data-toggle="tab" href="#versions">Past versions</a>
+</li>
+</ul>
+<div class="tab-content">
+<div id="summary" class="tab-pane fade in active">
+<p>
+<strong>Last updated:</strong> 2022-01-24
+</p>
+<p>
+<strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 0
+</p>
+<p>
+<strong>Knit directory:</strong> <code>QuantitativeGen/</code> <span class="glyphicon glyphicon-question-sign" aria-hidden="true" title="This is the local directory in which the code in this file was executed."> </span>
+</p>
+<p>
+This reproducible <a href="https://rmarkdown.rstudio.com">R Markdown</a> analysis was created with <a
+  href="https://github.com/workflowr/workflowr">workflowr</a> (version 1.7.0). The <em>Checks</em> tab describes the reproducibility checks that were applied when the results were created. The <em>Past versions</em> tab lists the development history.
+</p>
+<hr>
+</div>
+<div id="checks" class="tab-pane fade">
+<div id="workflowr-checks" class="panel-group">
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguptodate"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>R Markdown file:</strong> up-to-date </a>
+</p>
+</div>
+<div id="strongRMarkdownfilestronguptodate" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great! Since the R Markdown file has been committed to the Git repository, you know the exact version of the code that produced these results.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongEnvironmentstrongempty"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Environment:</strong> empty </a>
+</p>
+</div>
+<div id="strongEnvironmentstrongempty" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! The global environment was empty. Objects defined in the global environment can affect the analysis in your R Markdown file in unknown ways. For reproduciblity it’s best to always run the code in an empty environment.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSeedstrongcodesetseed20220124code"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Seed:</strong> <code>set.seed(20220124)</code> </a>
+</p>
+</div>
+<div id="strongSeedstrongcodesetseed20220124code" class="panel-collapse collapse">
+<div class="panel-body">
+<p>The command <code>set.seed(20220124)</code> was run prior to running the code in the R Markdown file. Setting a seed ensures that any results that rely on randomness, e.g. subsampling or permutations, are reproducible.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSessioninformationstrongrecorded"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Session information:</strong> recorded </a>
+</p>
+</div>
+<div id="strongSessioninformationstrongrecorded" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! Recording the operating system, R version, and package versions is critical for reproducibility.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongCachestrongnone"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Cache:</strong> none </a>
+</p>
+</div>
+<div id="strongCachestrongnone" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Nice! There were no cached chunks for this analysis, so you can be confident that you successfully produced the results during this run.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongFilepathsstrongrelative"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>File paths:</strong> relative </a>
+</p>
+</div>
+<div id="strongFilepathsstrongrelative" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! Using relative paths to the files within your workflowr project makes it easier to run your code on other machines.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomLucianoRogerioQuantitativeGenLabLuctree6c1599555240d4a11f835547b8b90e43fb2b8636targetblank6c15995a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/LucianoRogerio/QuantitativeGenLabLuc/tree/6c1599555240d4a11f835547b8b90e43fb2b8636" target="_blank">6c15995</a> </a>
+</p>
+</div>
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomLucianoRogerioQuantitativeGenLabLuctree6c1599555240d4a11f835547b8b90e43fb2b8636targetblank6c15995a" class="panel-collapse collapse">
+<div class="panel-body">
+<p>
+Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
+</p>
+<p>
+The results in this page were generated with repository version <a href="https://github.com/LucianoRogerio/QuantitativeGenLabLuc/tree/6c1599555240d4a11f835547b8b90e43fb2b8636" target="_blank">6c15995</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+</p>
+<p>
+Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
+</p>
+<pre><code>
+Ignored files:
+    Ignored:    .Rproj.user/
+
+Untracked files:
+    Untracked:  .DS_Store
+    Untracked:  analysis/.DS_Store
+    Untracked:  code/.DS_Store
+    Untracked:  code/SettingUpFolders.R
+
+Unstaged changes:
+    Modified:   analysis/_site.yml
+
+</code></pre>
+<p>
+Note that any generated files, e.g. HTML, png, CSS, etc., are not included in this status report because it is ok for generated content to have uncommitted changes.
+</p>
+</div>
+</div>
+</div>
+</div>
+<hr>
+</div>
+<div id="versions" class="tab-pane fade">
+
+<p>
+These are the previous versions of the repository in which changes were made to the R Markdown (<code>analysis/Simulate.Rmd</code>) and HTML (<code>docs/Simulate.html</code>) files. If you’ve configured a remote Git repository (see <code>?wflow_git_remote</code>), click on the hyperlinks in the table below to view the files as they were in that past version.
+</p>
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+File
+</th>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+<th>
+Message
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/LucianoRogerio/QuantitativeGenLabLuc/blob/6c1599555240d4a11f835547b8b90e43fb2b8636/analysis/Simulate.Rmd" target="_blank">6c15995</a>
+</td>
+<td>
+LucianoRogerio
+</td>
+<td>
+2022-01-24
+</td>
+<td>
+wflow_publish(files = c("analysis/index.Rmd", "analysis/Simulate.Rmd",
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<hr>
+</div>
+</div>
+</div>
+<div id="r-markdown" class="section level2">
+<h2>R Markdown</h2>
+<p>This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <a href="http://rmarkdown.rstudio.com" class="uri">http://rmarkdown.rstudio.com</a>.</p>
+<p>When you click the <strong>Knit</strong> button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:</p>
+</div>
+<div id="preliminaries" class="section level2">
+<h2>Preliminaries</h2>
+<div id="pre-preparation" class="section level3">
+<h3>Pre-preparation</h3>
+<p>If you rate your familiarity with R as “low” please go to <a href="http://www.datacarpentry.org/R-genomics/">Data Carpentry: R for Genomics</a> <em>in advance</em> of the first class and do the following:</p>
+<ul>
+<li>Work through the material between <em>at minimum</em> chapters 1 (“Before We Start”) and 4 (“Data frames”), but preferably also 5 (“The dplyr package”).</li>
+<li>This website includes instructions for installing R and Rstudio and <em>basic</em> instruction on how to interact with R.</li>
+<li>Please install the <code>AlphaSimR</code>, <code>workflowr</code>, <code>tidyverse</code>, and <code>sommer</code> packages.</li>
+</ul>
+</div>
+<div id="learning-objectives" class="section level3">
+<h3>Learning objectives</h3>
+<ol style="list-style-type: decimal">
+<li>Reproducible scripting</li>
+</ol>
+<ol style="list-style-type: lower-roman">
+<li>A reproducible analysis workflow includes a predictable input file and data structure, and outputs that are described, interpreted, and put in the context of the overall project in English.<br />
+</li>
+<li>The audience of this workflow is akin to someone who might be reviewing a manuscript derived from the work. The <strong>most important audience is yourself, six months later</strong>, or your close collaborators (e.g., lab group) who may need to carry on the work after you move on.<br />
+</li>
+<li>Whether you like it or not, you are a computational biologist. Lab biology experiments need to be reproducible. Computational biology analyses need to be reproducible.<br />
+</li>
+</ol>
+<ol start="2" style="list-style-type: decimal">
+<li>R markdown and workflowr<br />
+</li>
+</ol>
+<ol style="list-style-type: lower-roman">
+<li>R markdown language. It allows you to mingle script with formatted text, with script outputs. Note that Python and c++ scripts can be incorporated into R markdown. Help pages on rmarkdown:<br />
+<a href="https://rstudio.com/wp-content/uploads/2015/02/rmarkdown-cheatsheet.pdf">Cheat Sheet</a><br />
+<a href="https://rmarkdown.rstudio.com/authoring_basics.html">Authoring Basics</a><br />
+<a href="https://annakrystalli.me/rrresearch/05_literate-prog.html">In Literate Programming</a><br />
+</li>
+<li><code>workflowr</code> aims to make it easier to follow a coding workflow that will increase the communicability and reproducibility of your code, and constrain you somewhat to following that workflow. The package sets up a standard directory file structure and populates it with useful initial R markdown (.Rmd) files.<br />
+</li>
+<li><code>workflowr</code> also sets up the directory as a git version control repository. We will (probably) not teach git, but we encourage you all delving into it. Assume for the purpose of this class that you can use <code>workflowr</code> just to set up the file structure.There <a href="https://cran.r-project.org/web/packages/workflowr/vignettes/wflow-01-getting-started.html">is more</a> you can do with the package, and it’s worth checking it out (and its extensive documentation!)</li>
+</ol>
+<ol start="3" style="list-style-type: decimal">
+<li>Homework<br />
+</li>
+</ol>
+<ol style="list-style-type: lower-roman">
+<li>Labs, including this one, will be coupled with homework. One possibility for homework will be to do it in a <code>workflowr</code>-created directory, and hand in that zipped directory.</li>
+</ol>
+</div>
+<div id="document-explanation" class="section level3">
+<h3>Document explanation</h3>
+<p>There are three components to this document:</p>
+<ol style="list-style-type: decimal">
+<li>Discussing “Reproducible Programming” and various practices and packages that can help out.<br />
+</li>
+<li>Writing a simple script and describing it.<br />
+</li>
+<li>Setting up a homework.<br />
+In principle, we should cover the ideas of the homework in class. You will then make a clean rmarkdown script to show the ideas. The rmarkdown script should be embedded in a <code>workflowr</code> directory. The questions to answer through the lab and homework will be indented text.</li>
+</ol>
+</div>
+<div id="further-background" class="section level3">
+<h3>Further background</h3>
+<ul>
+<li>R markdown is very good for documenting <strong>scripts</strong>, but less so <strong>programs</strong>. If code is linear and fairly simple, I call it a script. If code has loops, is potentially multi-purpose, and defines functions, I call it a program. <code>workflowr</code> provides a <code>code</code> directory for programs, and an <code>analysis</code> directory for scripts. Of course, scripts can (should) refer to functions, etc., in the <code>code</code> directory. Any raw data can go in <code>data</code>. Script outputs can go in <code>output</code>. Final figures and so on can go in <code>docs</code>.<br />
+</li>
+<li>If you write a series of functions that you will use repeatedly, it’s probably worth <a href="http://r-pkgs.had.co.nz/">making a package</a> out of them. That is not trivial, but it’s less difficult than it sounds. You do not have to submit your package to <strong>CRAN</strong>, but can just use it internally. The documentation of functions that goes along with making a package is very helpful over time.<br />
+</li>
+<li>If you write a program that you imagine will develop over time, learn version control (probably “git”. I don’t know any other version control…), <a href="https://guides.github.com/activities/hello-world/">here</a> or <a href="https://www.atlassian.com/git">here</a>. Note that a public repository like github can be quite useful for making your data available once you publish your research. Note too that <code>workflowr</code> commands wrap a number of git commands to simplify the work flow, particularly if you are working in the RStudio environment.<br />
+</li>
+<li>Here are some useful articles:
+<ol style="list-style-type: lower-roman">
+<li><a href="http://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1003285">Ten Simple Rules for Reproducible Computational Research</a><br />
+</li>
+<li><a href="http://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1005510">Good enough practices in scientific computing</a></li>
+<li><a href="https://f1000research.com/articles/8-1749/v1">Creating and sharing reproducible research code the workflowr way</a></li>
+</ol></li>
+</ul>
+</div>
+<div id="loading-packages" class="section level3">
+<h3>Loading packages</h3>
+<p>If your script depends on external packages, load them at the beginning. This shows users early on what the script dependencies are.</p>
+<pre class="r"><code>ip &lt;- installed.packages()
+packages_used &lt;- c(&quot;tidyverse&quot;, &quot;workflowr&quot;)
+
+for (package in packages_used){
+  isInstalled &lt;- package %in% rownames(ip)
+  if (!isInstalled){
+    stop(paste(&quot;ERROR: you need to install the&quot;, package, &quot;package&quot;))
+  } else{
+    library(package, character.only=T)
+  }
+}#END packages_used</code></pre>
+<pre><code>── Attaching packages ─────────────────────────────────────── tidyverse 1.3.1 ──</code></pre>
+<pre><code>✓ ggplot2 3.3.5     ✓ purrr   0.3.4
+✓ tibble  3.1.6     ✓ dplyr   1.0.7
+✓ tidyr   1.1.4     ✓ stringr 1.4.0
+✓ readr   2.1.1     ✓ forcats 0.5.1</code></pre>
+<pre><code>── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+x dplyr::filter() masks stats::filter()
+x dplyr::lag()    masks stats::lag()</code></pre>
+</div>
+</div>
+<div id="simulating-data" class="section level2">
+<h2>Simulating Data</h2>
+<div id="simulation" class="section level3">
+<h3>Simulation</h3>
+<p>Data simulation is an important tool for quantitative geneticists. It can be used for model testing and validation, exploring the impacts of certain assumptions, and in breeding can be used to optimize breeding approaches by simulating various breeding strategies and measuring performance In PLBRG simulation will be used throughout the course in the labs.</p>
+<p>In subsequent labs you will be introduced to simulation tools that are particularly useful to plant and animal breeders, but to start we will simply use some random number generators to sample values from a normal distribution and calculate some simple statistics.</p>
+<pre class="r"><code>#The function rnorm returns simulated values from a normal distribution given input parameters for the mean and variance.
+#rnorm(n (# of sample to draw), mean, sd)
+# here we will draw 1000 samples from a normal distribution with mean= 15 and standard deviation = 10
+s=rnorm(1000,15,10)
+#The samples from rnorm are stored in the vector s
+#Random number generators use seeds to generate a sequence of random numbers. If you want a simulation to be repeated using the same sequence of numbers to need to keep the same seed (workflowr does this by default)</code></pre>
+</div>
+<div id="calculating-the-mean-and-variance" class="section level3">
+<h3>Calculating the mean and variance</h3>
+<p>Now that we have sampled the normal random variables, let’s calculate some simple statistics. The purpose of this exercise if to introduce some basic coding concepts: the use of looping statements and basic matrix/vector operations.</p>
+<p>First we will use two types of loops the sum the values in the vector s</p>
+</div>
+<div id="for-loop" class="section level3">
+<h3>for loop</h3>
+<ul>
+<li>A “for” loop will loop through the data a specified number of times.</li>
+<li>Since we have 1000 data points we will need the loop to go from 1 to 1000 to access all values in the vector s</li>
+</ul>
+<pre class="r"><code>#Here we initialize a value to store the sum of the values in s
+sumS = 0.0
+#Here we initialize the loop
+for(i in c(1:1000)){
+  #here we give a function to add the values of s to sumS
+  #since the for loop is set up with the indicator variable &quot;i&quot; which will count i = 1 to 1000 we access values in s using s[i]
+  sumS=sumS+s[i]
+} # end of the for loop to sum values i s
+#calculate the mean
+meanS=sumS/1000
+#this could also be coded as ms=sumS/length(s)
+print(meanS)</code></pre>
+<pre><code>[1] 15.32594</code></pre>
+</div>
+<div id="while-loop." class="section level3">
+<h3>while loop.</h3>
+<ul>
+<li>A While loop will keep looping through the data until some condition is met.</li>
+<li>While loops are useful when it is unknown how many loops are needed but there is some success condition.</li>
+<li>An example might be to go through a vector of numbers until you find a number &gt;= 0.</li>
+</ul>
+<pre class="r"><code>#Since there is not a predefined set of numbers to loop through we have to initialize the indicator variable.
+i=1
+sumS=0.0
+#In this case the condition to stop the loop will be when i reaches 1000
+while(i&lt;=length(s)){
+  sumS=sumS+s[i]
+  #We increase the value of i by 1 for each loop
+  i=i+1
+} #end the while loop to sum values in s
+#calculate the mean
+meanS=sumS/length(s)
+print(meanS)</code></pre>
+<pre><code>[1] 15.32594</code></pre>
+<p>In addition to loops we can also using simple matrix/vector operations to calculate a sum.</p>
+</div>
+<div id="calculating-the-inner-product-of-two-vectors" class="section level3">
+<h3>Calculating the inner product of two vectors</h3>
+<ul>
+<li>The inner product of two vectors is calculated by summing the product of the multiplication of corresponding elements of each vector.</li>
+<li>If we have two vectors a and b each having 3 elements the inner product would be <span class="math inline">\(a[1]*b[1]+a[2]*b[2]+a[3]*b[3]\)</span></li>
+<li>If b were a vector of 1s the inner product would be <span class="math inline">\(a[1]*1+a[2]*1+a[3]*1\)</span>, which is the sum of the vector a</li>
+<li>Matrix algebra will be covered in more depth later in the class but I would encourage you to examin online resources for a refresher if you are not very familiar with matrix operations.</li>
+</ul>
+<pre class="r"><code>#creating a vector of 1s of length 1000 
+#rep is an R function to create a vector of identical elements of some specified length
+b=rep(1,1000)
+#by default vectors in R are treated as columns
+#to calculate and inner product you need the first vector to be a row and the second vector to be a column
+#to transpose a column vector into a row vector use the function t()
+sumS=t(s)%*%b
+#in R %*% is used for matrix/vector multiplication
+meanS=sumS/length(s)
+
+print(meanS)</code></pre>
+<pre><code>         [,1]
+[1,] 15.32594</code></pre>
+</div>
+</div>
+<div id="variance" class="section level2">
+<h2>Variance</h2>
+<p>Now let’s apply the use of loops to calculate the variance</p>
+<pre class="r"><code>#To calculate the variance we will need to first get the sum of squares
+#First lets create a vector of centered values (mean removed)
+sc=s-meanS[1]
+#because we just calculate meanS using matrix/vector operations R treats the object meanS as a vector with 1 element - if calculate using loops it would be a scalar and no need for [1] after meanS 
+#The above line of code subtracts the mean from each of the 1000 elements in the vector s
+#now we initialize a varaible for the sum of squares
+sumSQ = 0.0
+#Here we initialize the loop
+for(i in c(1:1000)){
+  sumSQ=sumSQ+sc[i]**2 #a**b is used to raise a to the power b 
+} # end of the for loop to calculate the sum of squares
+#calculate the variance
+varS=sumSQ/(length(sc)-1)
+#we lose 1 degree of freedom when using an estimate of the mean
+
+print(varS)</code></pre>
+<pre><code>[1] 101.6292</code></pre>
+</div>
+<div id="homework" class="section level1">
+<h1>Homework</h1>
+<ol style="list-style-type: decimal">
+<li>Use <code>workflowr</code> to set up the file structure for this lab (I will walk you through it during our first lab session)</li>
+<li>Using this markdown file as a starting point, or creating your own markdown file, write code to calculate the variance using vector multiplication (no loops). Put the markdown file in the appropriate folder and build the html files using workflowr.</li>
+</ol>
+<p>Compress the full folder structure created by workflowr and upload to Canvas before the next lab period.</p>
+<br>
+<p>
+<button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
+<span class="glyphicon glyphicon-wrench" aria-hidden="true"></span> Session information
+</button>
+</p>
+<div id="workflowr-sessioninfo" class="collapse">
+<pre class="r"><code>sessionInfo()</code></pre>
+<pre><code>R version 4.1.1 (2021-08-10)
+Platform: aarch64-apple-darwin20 (64-bit)
+Running under: macOS Big Sur 11.6.1
+
+Matrix products: default
+LAPACK: /Library/Frameworks/R.framework/Versions/4.1-arm64/Resources/lib/libRlapack.dylib
+
+locale:
+[1] en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8
+
+attached base packages:
+[1] stats     graphics  grDevices utils     datasets  methods   base     
+
+other attached packages:
+ [1] forcats_0.5.1   stringr_1.4.0   dplyr_1.0.7     purrr_0.3.4    
+ [5] readr_2.1.1     tidyr_1.1.4     tibble_3.1.6    ggplot2_3.3.5  
+ [9] tidyverse_1.3.1 workflowr_1.7.0
+
+loaded via a namespace (and not attached):
+ [1] Rcpp_1.0.8       lubridate_1.8.0  getPass_0.2-2    ps_1.6.0        
+ [5] assertthat_0.2.1 rprojroot_2.0.2  digest_0.6.29    utf8_1.2.2      
+ [9] R6_2.5.1         cellranger_1.1.0 backports_1.4.1  reprex_2.0.1    
+[13] evaluate_0.14    httr_1.4.2       pillar_1.6.4     rlang_0.4.12    
+[17] readxl_1.3.1     rstudioapi_0.13  whisker_0.4      callr_3.7.0     
+[21] jquerylib_0.1.4  rmarkdown_2.11   munsell_0.5.0    broom_0.7.11    
+[25] compiler_4.1.1   httpuv_1.6.5     modelr_0.1.8     xfun_0.29       
+[29] pkgconfig_2.0.3  htmltools_0.5.2  tidyselect_1.1.1 fansi_1.0.2     
+[33] crayon_1.4.2     tzdb_0.2.0       dbplyr_2.1.1     withr_2.4.3     
+[37] later_1.3.0      grid_4.1.1       jsonlite_1.7.3   gtable_0.3.0    
+[41] lifecycle_1.0.1  DBI_1.1.2        git2r_0.29.0     magrittr_2.0.1  
+[45] scales_1.1.1     cli_3.1.0        stringi_1.7.6    fs_1.5.2        
+[49] promises_1.2.0.1 xml2_1.3.3       bslib_0.3.1      ellipsis_0.3.2  
+[53] generics_0.1.1   vctrs_0.3.8      tools_4.1.1      glue_1.6.0      
+[57] hms_1.1.1        processx_3.5.2   fastmap_1.1.0    yaml_2.2.1      
+[61] colorspace_2.0-2 rvest_1.0.2      knitr_1.37       haven_2.4.3     
+[65] sass_0.4.0      </code></pre>
+</div>
+</div>
+
+
+<!-- Adjust MathJax settings so that all math formulae are shown using
+TeX fonts only; see
+https://docs.mathjax.org/en/latest/web/configuration.html. This will make
+the presentation more consistent at the cost of the webpage sometimes
+taking slightly longer to load. Note that this only works because the
+footer is added to webpages before the MathJax javascript. -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    "HTML-CSS": { availableFonts: ["TeX"] }
+  });
+</script>
+
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
