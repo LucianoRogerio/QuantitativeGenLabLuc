@@ -1,0 +1,198 @@
+---
+title: "Simulating data and R basics"
+author: "Kelly Robbins"
+date: "1/24/2022"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+## Preliminaries
+
+### Pre-preparation
+
+If you rate your familiarity with R as "low" please go to [Data Carpentry: R for Genomics](http://www.datacarpentry.org/R-genomics/) *in advance* of the first class and do the following: 
+
+* Work through the material between *at minimum* chapters 1 ("Before We Start") and 4 ("Data frames"), but preferably also 5 ("The dplyr package").
+* This website includes instructions for installing R and Rstudio and *basic* instruction on how to interact with R.
+* Please install the `AlphaSimR`, `workflowr`, `tidyverse`, and `sommer` packages.
+
+### Learning objectives
+1. Reproducible scripting
+  i) A reproducible analysis workflow includes a predictable input file and data structure, and outputs that are described, interpreted, and put in the context of the overall project in English.  
+  ii) The audience of this workflow is akin to someone who might be reviewing a manuscript derived from the work. The **most important audience is yourself, six months later**, or your close collaborators (e.g., lab group) who may need to carry on the work after you move on.  
+  iii) Whether you like it or not, you are a computational biologist. Lab biology experiments need to be reproducible. Computational biology analyses need to be reproducible.  
+2. R markdown and workflowr  
+  i) R markdown language. It allows you to mingle script with formatted text, with script outputs.  Note that Python and c++ scripts can be incorporated into R markdown. Help pages on rmarkdown:  
+[Cheat Sheet](https://rstudio.com/wp-content/uploads/2015/02/rmarkdown-cheatsheet.pdf)  
+[Authoring Basics](https://rmarkdown.rstudio.com/authoring_basics.html)  
+[In Literate Programming](https://annakrystalli.me/rrresearch/05_literate-prog.html)  
+  ii) `workflowr` aims to make it easier to follow a coding workflow that will increase the communicability and reproducibility of your code, and constrain you somewhat to following that workflow. The package sets up a standard directory file structure and populates it with useful initial R markdown (.Rmd) files.  
+  iii) `workflowr` also sets up the directory as a git version control repository. We will (probably) not teach git, but we encourage you all delving into it. Assume for the purpose of this class that you can use `workflowr` just to set up the file structure.There [is more](https://cran.r-project.org/web/packages/workflowr/vignettes/wflow-01-getting-started.html) you can do with the package, and it's worth checking it out (and its extensive documentation!) 
+
+3. Homework  
+  i) Labs, including this one, will be coupled with homework. One possibility for homework will be to do it in a `workflowr`-created directory, and hand in that zipped directory.  
+
+### Document explanation
+There are three components to this document:
+
+1. Discussing "Reproducible Programming" and various practices and packages that can help out.  
+2. Writing a simple script and describing it.  
+3. Setting up a homework.  
+In principle, we should cover the ideas of the homework in class. You will then make a clean rmarkdown script to show the ideas. The rmarkdown script should be embedded in a `workflowr` directory. The questions to answer through the lab and homework will be indented text.  
+
+
+### Further background
+* R markdown is very good for documenting **scripts**, but less so **programs**. If code is linear and fairly simple, I call it a script.  If code has loops, is potentially multi-purpose, and defines functions, I call it a program. `workflowr` provides a `code` directory for programs, and an `analysis` directory for scripts. Of course, scripts can (should) refer to functions, etc., in the `code` directory. Any raw data can go in `data`. Script outputs can go in `output`. Final figures and so on can go in `docs`.  
+* If you write a series of functions that you will use repeatedly, it's probably worth [making a package](http://r-pkgs.had.co.nz/) out of them.  That is not trivial, but it's less difficult than it sounds.  You do not have to submit your package to **CRAN**, but can just use it internally.  The documentation of functions that goes along with making a package is very helpful over time.  
+* If you write a program that you imagine will develop over time, learn version control (probably "git".  I don't know any other version control...), [here](https://guides.github.com/activities/hello-world/) or [here](https://www.atlassian.com/git).  Note that a public repository like github can be quite useful for making your data available once you publish your research. Note too that `workflowr` commands wrap a number of git commands to simplify the work flow, particularly if you are working in the RStudio environment.    
+* Here are some useful articles:
+  i) [Ten Simple Rules for Reproducible Computational Research](http://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1003285)  
+  ii) [Good enough practices in scientific computing](http://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1005510)
+  iii) [Creating and sharing reproducible research code the workflowr way](https://f1000research.com/articles/8-1749/v1)
+  
+### Loading packages
+If your script depends on external packages, load them at the beginning. This shows users early on what the script dependencies are.  
+```{r package ambiguity, message=TRUE}
+ip <- installed.packages()
+packages_used <- c("tidyverse", "workflowr")
+
+for (package in packages_used){
+  isInstalled <- package %in% rownames(ip)
+  if (!isInstalled){
+    stop(paste("ERROR: you need to install the", package, "package"))
+  } else{
+    library(package, character.only=T)
+  }
+}#END packages_used
+```
+
+## Simulating Data
+
+### Simulation
+
+Data simulation is an important tool for quantitative geneticists. It can be used for model testing and validation, exploring the impacts of certain assumptions, and in breeding can be used to optimize breeding approaches by simulating various breeding strategies and measuring performance In PLBRG simulation will be used throughout the course in the labs.
+
+In subsequent labs you will be introduced to simulation tools that are particularly useful to plant and animal breeders, but to start we will simply use some random number generators to sample values from a normal distribution and calculate some simple statistics.
+
+
+
+```{r simulate data from a normal distribution}
+#The function rnorm returns simulated values from a normal distribution given input parameters for the mean and variance.
+#rnorm(n (# of sample to draw), mean, sd)
+# here we will draw 1000 samples from a normal distribution with mean= 15 and standard deviation = 10
+s=rnorm(1000,15,10)
+#The samples from rnorm are stored in the vector s
+#Random number generators use seeds to generate a sequence of random numbers. If you want a simulation to be repeated using the same sequence of numbers to need to keep the same seed (workflowr does this by default)
+```
+
+### Calculating the mean and variance
+
+Now that we have sampled the normal random variables, let's calculate some simple statistics. The purpose of this exercise if to introduce some basic coding concepts: the use of looping statements and basic matrix/vector operations. 
+
+First we will use two types of loops the sum the values in the vector s
+
+### for loop
+
+* A "for" loop will loop through the data a specified number of times.
+* Since we have 1000 data points we will need the loop to go from 1 to 1000 to access all values in the vector s
+
+```{r cacluate the mean using a for loop}
+
+#Here we initialize a value to store the sum of the values in s
+sumS = 0.0
+#Here we initialize the loop
+for(i in c(1:1000)){
+  #here we give a function to add the values of s to sumS
+  #since the for loop is set up with the indicator variable "i" which will count i = 1 to 1000 we access values in s using s[i]
+  sumS=sumS+s[i]
+} # end of the for loop to sum values i s
+#calculate the mean
+meanS=sumS/1000
+#this could also be coded as ms=sumS/length(s)
+print(meanS)
+```
+
+### while loop.
+
+* A While loop will keep looping through the data until some condition is met.
+* While loops are useful when it is unknown how many loops are needed but there is some success condition.
+* An example might be to go through a vector of numbers until you find a number >= 0. 
+
+```{r cacluate the mean using a while loop}
+#Since there is not a predefined set of numbers to loop through we have to initialize the indicator variable.
+i=1
+sumS=0.0
+#In this case the condition to stop the loop will be when i reaches 1000
+while(i<=length(s)){
+  sumS=sumS+s[i]
+  #We increase the value of i by 1 for each loop
+  i=i+1
+} #end the while loop to sum values in s
+#calculate the mean
+meanS=sumS/length(s)
+print(meanS)
+```
+
+In addition to loops we can also using simple matrix/vector operations to calculate a sum.
+
+### Calculating the inner product of two vectors
+
+* The inner product of two vectors is calculated by summing the product of the multiplication of corresponding elements of each vector.
+* If we have two vectors a and b each having 3 elements the inner product would be \(a[1]*b[1]+a[2]*b[2]+a[3]*b[3]\)
+* If b were a vector of 1s the inner product would be \(a[1]*1+a[2]*1+a[3]*1\), which is the sum of the vector a
+* Matrix algebra will be covered in more depth later in the class but I would encourage you to examin online resources for a refresher if you are not very familiar with matrix operations.
+
+```{r cacluate the mean using vector multiplication}
+#creating a vector of 1s of length 1000 
+#rep is an R function to create a vector of identical elements of some specified length
+b=rep(1,1000)
+#by default vectors in R are treated as columns
+#to calculate and inner product you need the first vector to be a row and the second vector to be a column
+#to transpose a column vector into a row vector use the function t()
+sumS=t(s)%*%b
+#in R %*% is used for matrix/vector multiplication
+meanS=sumS/length(s)
+
+print(meanS)
+
+```
+
+## Variance
+
+Now let's apply the use of loops to calculate the variance
+
+```{r cacluate the variance using a for loop}
+
+#To calculate the variance we will need to first get the sum of squares
+#First lets create a vector of centered values (mean removed)
+sc=s-meanS[1]
+#because we just calculate meanS using matrix/vector operations R treats the object meanS as a vector with 1 element - if calculate using loops it would be a scalar and no need for [1] after meanS 
+#The above line of code subtracts the mean from each of the 1000 elements in the vector s
+#now we initialize a varaible for the sum of squares
+sumSQ = 0.0
+#Here we initialize the loop
+for(i in c(1:1000)){
+  sumSQ=sumSQ+sc[i]**2 #a**b is used to raise a to the power b 
+} # end of the for loop to calculate the sum of squares
+#calculate the variance
+varS=sumSQ/(length(sc)-1)
+#we lose 1 degree of freedom when using an estimate of the mean
+
+print(varS)
+
+```
+
+# Homework
+1) Use `workflowr` to set up the file structure for this lab (I will walk you through it during our first lab session)
+2) Using this markdown file as a  starting point, or creating your own markdown file, write code to calculate the variance using vector multiplication (no loops). Put the markdown file in the appropriate folder and build the html files using workflowr.
+
+Compress the full folder structure created by workflowr and upload to Canvas before the next lab period. 
