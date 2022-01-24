@@ -5,6 +5,10 @@ navbar:
   left:
   - text: Home
     href: index.html
+  - text: "Luciano Solutions"
+    href: LucSolutions.html
+  - text: LabClasses
+    href: LabClasses.html
   - text: About
     href: about.html
   - text: License

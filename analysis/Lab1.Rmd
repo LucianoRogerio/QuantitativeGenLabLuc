@@ -7,9 +7,28 @@ editor_options:
   chunk_output_type: console
 ---
 
-## Introduction
+# Homework - Jan 24 2022
 
-```{r}
+1) Use `workflowr` to set up the file structure for this lab (I will walk you through it during our first lab session)
+2) Using this markdown file as a  starting point, or creating your own markdown file, write code to calculate the variance using vector multiplication (no loops). Put the markdown file in the appropriate folder and build the html files using workflowr.
+
+```{r simulate the vector with a thousand observations}
+# Using set.seed() to avoid issues of merge in GitHub
+set.seed(01242022)
+
+# Simulation of a Thousand observations assuming a normal distribution with mean 15 and standard deviation of 10
+s <- rnorm(n = 1000, mean = 15, sd = 10)
+
+sd <- s - mean(s, na.rm = TRUE)
+
+# Matrix method to estimate variance of a population sample
+VarS1 <- (t(sd)%*%sd)/(length(sd)-1)
+
+colnames(VarS1) <- "Var"
+print(VarS1)
 
 ```
 
+The variance estimate to this set.seed sample scenario is 95.71998
+
+[Home](LucSolutions.html)
