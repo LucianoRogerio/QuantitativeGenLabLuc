@@ -1,0 +1,17 @@
+---
+title: "Quantitative Genetics Lab Classes"
+author: "LucianoRogerio"
+date: "2022-01-24"
+output: workflowr::wflow_html
+editor_options:
+  chunk_output_type: console
+---
+
+## R html files
+
+Lab Classes of Quantitative Genetics for Analysis and Improvement of Complex Traits of Cornell University
+
+- Jan 24 2022
+  - Files: 
+  
+      [Simulate.html](Simulate.html)

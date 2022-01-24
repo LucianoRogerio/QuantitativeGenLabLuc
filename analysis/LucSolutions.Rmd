@@ -1,0 +1,15 @@
+---
+title: "Luciano Solutions"
+author: "LucianoRogerio"
+date: "2022-01-24"
+output: workflowr::wflow_html
+editor_options:
+  chunk_output_type: console
+---
+
+## R html files
+
+Luciano's solutions to exercises of Lab Classes of Quantitative Genetics for Analysis and Improvement of Complex Traits of Cornell University
+
+- Jan 24 2022 - workflowr directory and variance estimate by matrix operations - [link](Lab1.html)
+  

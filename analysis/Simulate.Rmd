@@ -87,11 +87,12 @@ In subsequent labs you will be introduced to simulation tools that are particula
 
 ```{r simulate data from a normal distribution}
 #The function rnorm returns simulated values from a normal distribution given input parameters for the mean and variance.
-#rnorm(n (# of sample to draw), mean, sd)
 # here we will draw 1000 samples from a normal distribution with mean= 15 and standard deviation = 10
-s=rnorm(1000,15,10)
+set.seed(12)
+s=rnorm(n = 1000, mean = 15, sd = 10)
 #The samples from rnorm are stored in the vector s
 #Random number generators use seeds to generate a sequence of random numbers. If you want a simulation to be repeated using the same sequence of numbers to need to keep the same seed (workflowr does this by default)
+hist(s)
 ```
 
 ### Calculating the mean and variance
@@ -105,7 +106,7 @@ First we will use two types of loops the sum the values in the vector s
 * A "for" loop will loop through the data a specified number of times.
 * Since we have 1000 data points we will need the loop to go from 1 to 1000 to access all values in the vector s
 
-```{r cacluate the mean using a for loop}
+```{r calculate the mean using a for loop}
 
 #Here we initialize a value to store the sum of the values in s
 sumS = 0.0
@@ -127,7 +128,7 @@ print(meanS)
 * While loops are useful when it is unknown how many loops are needed but there is some success condition.
 * An example might be to go through a vector of numbers until you find a number >= 0. 
 
-```{r cacluate the mean using a while loop}
+```{r calculate the mean using a while loop}
 #Since there is not a predefined set of numbers to loop through we have to initialize the indicator variable.
 i=1
 sumS=0.0
@@ -151,7 +152,7 @@ In addition to loops we can also using simple matrix/vector operations to calcul
 * If b were a vector of 1s the inner product would be \(a[1]*1+a[2]*1+a[3]*1\), which is the sum of the vector a
 * Matrix algebra will be covered in more depth later in the class but I would encourage you to examin online resources for a refresher if you are not very familiar with matrix operations.
 
-```{r cacluate the mean using vector multiplication}
+```{r calculate the mean using vector multiplication}
 #creating a vector of 1s of length 1000 
 #rep is an R function to create a vector of identical elements of some specified length
 b=rep(1,1000)
@@ -195,4 +196,6 @@ print(varS)
 1) Use `workflowr` to set up the file structure for this lab (I will walk you through it during our first lab session)
 2) Using this markdown file as a  starting point, or creating your own markdown file, write code to calculate the variance using vector multiplication (no loops). Put the markdown file in the appropriate folder and build the html files using workflowr.
 
+
+[Luciano Solution](Lab1.html)
 Compress the full folder structure created by workflowr and upload to Canvas before the next lab period. 
