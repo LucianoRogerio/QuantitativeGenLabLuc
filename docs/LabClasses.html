@@ -9,9 +9,11 @@
 <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
 
+<meta name="author" content="LucianoRogerio" />
 
+<meta name="date" content="2022-01-24" />
 
-<title>License</title>
+<title>Quantitative Genetics Lab Classes</title>
 
 <script src="site_libs/header-attrs-2.11/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
@@ -29,6 +31,9 @@
        h6 {font-size: 12px;}
        code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
        pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
@@ -228,6 +233,69 @@ $(document).ready(function () {
 
 
 
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
 
 </head>
 
@@ -235,6 +303,16 @@ $(document).ready(function () {
 
 
 <div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
 
 
 
@@ -278,7 +356,9 @@ $(document).ready(function () {
 
 
 
-<h1 class="title toc-ignore">License</h1>
+<h1 class="title toc-ignore">Quantitative Genetics Lab Classes</h1>
+<h4 class="author">LucianoRogerio</h4>
+<h4 class="date">2022-01-24</h4>
 
 </div>
 
@@ -374,7 +454,7 @@ Note that any generated files, e.g. HTML, png, CSS, etc., are not included in t
 <div id="versions" class="tab-pane fade">
 
 <p>
-These are the previous versions of the repository in which changes were made to the R Markdown (<code>analysis/license.Rmd</code>) and HTML (<code>docs/license.html</code>) files. If you’ve configured a remote Git repository (see <code>?wflow_git_remote</code>), click on the hyperlinks in the table below to view the files as they were in that past version.
+These are the previous versions of the repository in which changes were made to the R Markdown (<code>analysis/LabClasses.Rmd</code>) and HTML (<code>docs/LabClasses.html</code>) files. If you’ve configured a remote Git repository (see <code>?wflow_git_remote</code>), click on the hyperlinks in the table below to view the files as they were in that past version.
 </p>
 <div class="table-responsive">
 <table class="table table-condensed table-hover">
@@ -400,27 +480,10 @@ Message
 <tbody>
 <tr>
 <td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/LucianoRogerio/QuantitativeGenLabLuc/4f7264e96a52b140e27b974667be92568d5fca98/docs/license.html" target="_blank">4f7264e</a>
-</td>
-<td>
-LucianoRogerio
-</td>
-<td>
-2022-01-24
-</td>
-<td>
-Build site.
-</td>
-</tr>
-<tr>
-<td>
 Rmd
 </td>
 <td>
-<a href="https://github.com/LucianoRogerio/QuantitativeGenLabLuc/blob/c3c6a25d64aec15b8a7e1c517ddf081110ba2664/analysis/license.Rmd" target="_blank">c3c6a25</a>
+<a href="https://github.com/LucianoRogerio/QuantitativeGenLabLuc/blob/aba23b1401ae3e0d285a7e12619e72bb7438ab49/analysis/LabClasses.Rmd" target="_blank">aba23b1</a>
 </td>
 <td>
 LucianoRogerio
@@ -429,7 +492,7 @@ LucianoRogerio
 2022-01-24
 </td>
 <td>
-Start workflowr project.
+wflow_publish(files = c("analysis/index.Rmd", "analysis/about.Rmd",
 </td>
 </tr>
 </tbody>
@@ -439,9 +502,17 @@ Start workflowr project.
 </div>
 </div>
 </div>
-<p>What license are you using for your code? See <a href="https://choosealicense.com/">choosealicense.com</a> for help deciding. It’s a convention to save a file <code>LICENSE</code> in the root of your Git repo that contains the license text.</p>
-<p>What license are you using for the written content on your site? It is traditional to choose a <a href="https://creativecommons.org/choose/">Creative Commons</a> license for this type of content.</p>
-<p>How should others cite your work? It’s a convention to save a file <code>CITATION</code> in the root of your Git repo that contains the citation information.</p>
+<div id="r-html-files" class="section level2">
+<h2>R html files</h2>
+<p>Lab Classes of Quantitative Genetics for Analysis and Improvement of Complex Traits of Cornell University</p>
+<ul>
+<li>Jan 24 2022
+<ul>
+<li><p>Files:</p>
+<p><a href="Simulate.html">Simulate.html</a></p></li>
+</ul></li>
+</ul>
+</div>
 
 
 <!-- Adjust MathJax settings so that all math formulae are shown using
@@ -459,6 +530,8 @@ footer is added to webpages before the MathJax javascript. -->
 
 
 
+</div>
+</div>
 
 </div>
 
@@ -491,6 +564,35 @@ $(document).ready(function () {
 
 <!-- code folding -->
 
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
 
 <!-- dynamically load mathjax for compatibility with self-contained -->
 <script>

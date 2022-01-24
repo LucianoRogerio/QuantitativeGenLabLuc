@@ -332,7 +332,10 @@ div.tocify {
   <a href="index.html">Home</a>
 </li>
 <li>
-  <a href="Simulate.html">Simulate</a>
+  <a href="LucSolutions.html">Luciano Solutions</a>
+</li>
+<li>
+  <a href="LabClasses.html">LabClasses</a>
 </li>
 <li>
   <a href="about.html">About</a>
@@ -470,16 +473,16 @@ This reproducible <a href="https://rmarkdown.rstudio.com">R Markdown</a> analysi
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomLucianoRogerioQuantitativeGenLabLuctree6c1599555240d4a11f835547b8b90e43fb2b8636targetblank6c15995a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/LucianoRogerio/QuantitativeGenLabLuc/tree/6c1599555240d4a11f835547b8b90e43fb2b8636" target="_blank">6c15995</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomLucianoRogerioQuantitativeGenLabLuctreeaba23b1401ae3e0d285a7e12619e72bb7438ab49targetblankaba23b1a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/LucianoRogerio/QuantitativeGenLabLuc/tree/aba23b1401ae3e0d285a7e12619e72bb7438ab49" target="_blank">aba23b1</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomLucianoRogerioQuantitativeGenLabLuctree6c1599555240d4a11f835547b8b90e43fb2b8636targetblank6c15995a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomLucianoRogerioQuantitativeGenLabLuctreeaba23b1401ae3e0d285a7e12619e72bb7438ab49targetblankaba23b1a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/LucianoRogerio/QuantitativeGenLabLuc/tree/6c1599555240d4a11f835547b8b90e43fb2b8636" target="_blank">6c15995</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/LucianoRogerio/QuantitativeGenLabLuc/tree/aba23b1401ae3e0d285a7e12619e72bb7438ab49" target="_blank">aba23b1</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -534,6 +537,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/LucianoRogerio/QuantitativeGenLabLuc/blob/aba23b1401ae3e0d285a7e12619e72bb7438ab49/analysis/Simulate.Rmd" target="_blank">aba23b1</a>
+</td>
+<td>
+LucianoRogerio
+</td>
+<td>
+2022-01-24
+</td>
+<td>
+wflow_publish(files = c("analysis/index.Rmd", "analysis/about.Rmd",
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/LucianoRogerio/QuantitativeGenLabLuc/4f7264e96a52b140e27b974667be92568d5fca98/docs/Simulate.html" target="_blank">4f7264e</a>
+</td>
+<td>
+LucianoRogerio
+</td>
+<td>
+2022-01-24
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -670,11 +707,13 @@ x dplyr::lag()    masks stats::lag()</code></pre>
 <p>Data simulation is an important tool for quantitative geneticists. It can be used for model testing and validation, exploring the impacts of certain assumptions, and in breeding can be used to optimize breeding approaches by simulating various breeding strategies and measuring performance In PLBRG simulation will be used throughout the course in the labs.</p>
 <p>In subsequent labs you will be introduced to simulation tools that are particularly useful to plant and animal breeders, but to start we will simply use some random number generators to sample values from a normal distribution and calculate some simple statistics.</p>
 <pre class="r"><code>#The function rnorm returns simulated values from a normal distribution given input parameters for the mean and variance.
-#rnorm(n (# of sample to draw), mean, sd)
 # here we will draw 1000 samples from a normal distribution with mean= 15 and standard deviation = 10
-s=rnorm(1000,15,10)
+set.seed(12)
+s=rnorm(n = 1000, mean = 15, sd = 10)
 #The samples from rnorm are stored in the vector s
-#Random number generators use seeds to generate a sequence of random numbers. If you want a simulation to be repeated using the same sequence of numbers to need to keep the same seed (workflowr does this by default)</code></pre>
+#Random number generators use seeds to generate a sequence of random numbers. If you want a simulation to be repeated using the same sequence of numbers to need to keep the same seed (workflowr does this by default)
+hist(s)</code></pre>
+<p><img src="figure/Simulate.Rmd/simulate%20data%20from%20a%20normal%20distribution-1.png" width="672" style="display: block; margin: auto;" /></p>
 </div>
 <div id="calculating-the-mean-and-variance" class="section level3">
 <h3>Calculating the mean and variance</h3>
@@ -699,7 +738,7 @@ for(i in c(1:1000)){
 meanS=sumS/1000
 #this could also be coded as ms=sumS/length(s)
 print(meanS)</code></pre>
-<pre><code>[1] 15.32594</code></pre>
+<pre><code>[1] 14.73563</code></pre>
 </div>
 <div id="while-loop." class="section level3">
 <h3>while loop.</h3>
@@ -720,7 +759,7 @@ while(i&lt;=length(s)){
 #calculate the mean
 meanS=sumS/length(s)
 print(meanS)</code></pre>
-<pre><code>[1] 15.32594</code></pre>
+<pre><code>[1] 14.73563</code></pre>
 <p>In addition to loops we can also using simple matrix/vector operations to calculate a sum.</p>
 </div>
 <div id="calculating-the-inner-product-of-two-vectors" class="section level3">
@@ -743,7 +782,7 @@ meanS=sumS/length(s)
 
 print(meanS)</code></pre>
 <pre><code>         [,1]
-[1,] 15.32594</code></pre>
+[1,] 14.73563</code></pre>
 </div>
 </div>
 <div id="variance" class="section level2">
@@ -765,7 +804,7 @@ varS=sumSQ/(length(sc)-1)
 #we lose 1 degree of freedom when using an estimate of the mean
 
 print(varS)</code></pre>
-<pre><code>[1] 101.6292</code></pre>
+<pre><code>[1] 92.03544</code></pre>
 </div>
 <div id="homework" class="section level1">
 <h1>Homework</h1>
@@ -773,7 +812,7 @@ print(varS)</code></pre>
 <li>Use <code>workflowr</code> to set up the file structure for this lab (I will walk you through it during our first lab session)</li>
 <li>Using this markdown file as a starting point, or creating your own markdown file, write code to calculate the variance using vector multiplication (no loops). Put the markdown file in the appropriate folder and build the html files using workflowr.</li>
 </ol>
-<p>Compress the full folder structure created by workflowr and upload to Canvas before the next lab period.</p>
+<p><a href="Lab1.html">Luciano Solution</a> Compress the full folder structure created by workflowr and upload to Canvas before the next lab period.</p>
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
@@ -804,20 +843,20 @@ loaded via a namespace (and not attached):
  [1] Rcpp_1.0.8       lubridate_1.8.0  getPass_0.2-2    ps_1.6.0        
  [5] assertthat_0.2.1 rprojroot_2.0.2  digest_0.6.29    utf8_1.2.2      
  [9] R6_2.5.1         cellranger_1.1.0 backports_1.4.1  reprex_2.0.1    
-[13] evaluate_0.14    httr_1.4.2       pillar_1.6.4     rlang_0.4.12    
-[17] readxl_1.3.1     rstudioapi_0.13  whisker_0.4      callr_3.7.0     
-[21] jquerylib_0.1.4  rmarkdown_2.11   munsell_0.5.0    broom_0.7.11    
-[25] compiler_4.1.1   httpuv_1.6.5     modelr_0.1.8     xfun_0.29       
-[29] pkgconfig_2.0.3  htmltools_0.5.2  tidyselect_1.1.1 fansi_1.0.2     
-[33] crayon_1.4.2     tzdb_0.2.0       dbplyr_2.1.1     withr_2.4.3     
-[37] later_1.3.0      grid_4.1.1       jsonlite_1.7.3   gtable_0.3.0    
-[41] lifecycle_1.0.1  DBI_1.1.2        git2r_0.29.0     magrittr_2.0.1  
-[45] scales_1.1.1     cli_3.1.0        stringi_1.7.6    fs_1.5.2        
-[49] promises_1.2.0.1 xml2_1.3.3       bslib_0.3.1      ellipsis_0.3.2  
-[53] generics_0.1.1   vctrs_0.3.8      tools_4.1.1      glue_1.6.0      
-[57] hms_1.1.1        processx_3.5.2   fastmap_1.1.0    yaml_2.2.1      
-[61] colorspace_2.0-2 rvest_1.0.2      knitr_1.37       haven_2.4.3     
-[65] sass_0.4.0      </code></pre>
+[13] evaluate_0.14    highr_0.9        httr_1.4.2       pillar_1.6.4    
+[17] rlang_0.4.12     readxl_1.3.1     rstudioapi_0.13  whisker_0.4     
+[21] callr_3.7.0      jquerylib_0.1.4  rmarkdown_2.11   munsell_0.5.0   
+[25] broom_0.7.11     compiler_4.1.1   httpuv_1.6.5     modelr_0.1.8    
+[29] xfun_0.29        pkgconfig_2.0.3  htmltools_0.5.2  tidyselect_1.1.1
+[33] fansi_1.0.2      crayon_1.4.2     tzdb_0.2.0       dbplyr_2.1.1    
+[37] withr_2.4.3      later_1.3.0      grid_4.1.1       jsonlite_1.7.3  
+[41] gtable_0.3.0     lifecycle_1.0.1  DBI_1.1.2        git2r_0.29.0    
+[45] magrittr_2.0.1   scales_1.1.1     cli_3.1.0        stringi_1.7.6   
+[49] fs_1.5.2         promises_1.2.0.1 xml2_1.3.3       bslib_0.3.1     
+[53] ellipsis_0.3.2   generics_0.1.1   vctrs_0.3.8      tools_4.1.1     
+[57] glue_1.6.0       hms_1.1.1        processx_3.5.2   fastmap_1.1.0   
+[61] yaml_2.2.1       colorspace_2.0-2 rvest_1.0.2      knitr_1.37      
+[65] haven_2.4.3      sass_0.4.0      </code></pre>
 </div>
 </div>
 
