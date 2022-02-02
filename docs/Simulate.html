@@ -331,8 +331,23 @@ div.tocify {
         <li>
   <a href="index.html">Home</a>
 </li>
-<li>
-  <a href="LucSolutions.html">Luciano Solutions</a>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Luciano Solutions
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="LucSolutions.html">Home</a>
+    </li>
+    <li>
+      <a href="Lab1.html">Homework 1</a>
+    </li>
+    <li>
+      <a href="Lab2.html">Homework 2</a>
+    </li>
+  </ul>
 </li>
 <li>
   <a href="LabClasses.html">LabClasses</a>
@@ -382,7 +397,7 @@ div.tocify {
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2022-01-24
+<strong>Last updated:</strong> 2022-02-01
 </p>
 <p>
 <strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 0
@@ -473,32 +488,27 @@ This reproducible <a href="https://rmarkdown.rstudio.com">R Markdown</a> analysi
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomLucianoRogerioQuantitativeGenLabLuctreeaba23b1401ae3e0d285a7e12619e72bb7438ab49targetblankaba23b1a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/LucianoRogerio/QuantitativeGenLabLuc/tree/aba23b1401ae3e0d285a7e12619e72bb7438ab49" target="_blank">aba23b1</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomLucianoRogerioQuantitativeGenLabLuctree79038f79048548f2c55242d7e4538ee0d4be72ebtargetblank79038f7a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/LucianoRogerio/QuantitativeGenLabLuc/tree/79038f79048548f2c55242d7e4538ee0d4be72eb" target="_blank">79038f7</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomLucianoRogerioQuantitativeGenLabLuctreeaba23b1401ae3e0d285a7e12619e72bb7438ab49targetblankaba23b1a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomLucianoRogerioQuantitativeGenLabLuctree79038f79048548f2c55242d7e4538ee0d4be72ebtargetblank79038f7a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/LucianoRogerio/QuantitativeGenLabLuc/tree/aba23b1401ae3e0d285a7e12619e72bb7438ab49" target="_blank">aba23b1</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/LucianoRogerio/QuantitativeGenLabLuc/tree/79038f79048548f2c55242d7e4538ee0d4be72eb" target="_blank">79038f7</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
 </p>
 <pre><code>
 Ignored files:
+    Ignored:    .Rhistory
     Ignored:    .Rproj.user/
 
 Untracked files:
-    Untracked:  .DS_Store
-    Untracked:  analysis/.DS_Store
-    Untracked:  code/.DS_Store
-    Untracked:  code/SettingUpFolders.R
-
-Unstaged changes:
-    Modified:   analysis/_site.yml
+    Untracked:  output/QTLgenotypes.csv
 
 </code></pre>
 <p>
@@ -537,6 +547,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/LucianoRogerio/QuantitativeGenLabLuc/79038f79048548f2c55242d7e4538ee0d4be72eb/docs/Simulate.html" target="_blank">79038f7</a>
+</td>
+<td>
+LucianoRogerio
+</td>
+<td>
+2022-02-01
+</td>
+<td>
+Homework 2
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/LucianoRogerio/QuantitativeGenLabLuc/60fd515d8bcf204625d26b14feb9733491871dd8/docs/Simulate.html" target="_blank">60fd515</a>
+</td>
+<td>
+LucianoRogerio
+</td>
+<td>
+2022-01-24
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -698,6 +742,8 @@ for (package in packages_used){
 <pre><code>── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
 x dplyr::filter() masks stats::filter()
 x dplyr::lag()    masks stats::lag()</code></pre>
+<pre><code>This is workflowr version 1.7.0
+Run ?workflowr for help getting started</code></pre>
 </div>
 </div>
 <div id="simulating-data" class="section level2">
@@ -714,6 +760,43 @@ s=rnorm(n = 1000, mean = 15, sd = 10)
 #Random number generators use seeds to generate a sequence of random numbers. If you want a simulation to be repeated using the same sequence of numbers to need to keep the same seed (workflowr does this by default)
 hist(s)</code></pre>
 <p><img src="figure/Simulate.Rmd/simulate%20data%20from%20a%20normal%20distribution-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no-spaces-simulate-data-from-a-normal-distribution-1">
+Past versions of "simulate data from a normal distribution-1.png"
+</button>
+</p>
+<div id="fig-no-spaces-simulate-data-from-a-normal-distribution-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/LucianoRogerio/QuantitativeGenLabLuc/blob/60fd515d8bcf204625d26b14feb9733491871dd8/docs/figure/Simulate.Rmd/simulate data from a normal distribution-1.png" target="_blank">60fd515</a>
+</td>
+<td>
+LucianoRogerio
+</td>
+<td>
+2022-01-24
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="calculating-the-mean-and-variance" class="section level3">
 <h3>Calculating the mean and variance</h3>
@@ -835,17 +918,17 @@ attached base packages:
 [1] stats     graphics  grDevices utils     datasets  methods   base     
 
 other attached packages:
- [1] forcats_0.5.1   stringr_1.4.0   dplyr_1.0.7     purrr_0.3.4    
- [5] readr_2.1.1     tidyr_1.1.4     tibble_3.1.6    ggplot2_3.3.5  
- [9] tidyverse_1.3.1 workflowr_1.7.0
+ [1] workflowr_1.7.0 forcats_0.5.1   stringr_1.4.0   dplyr_1.0.7    
+ [5] purrr_0.3.4     readr_2.1.1     tidyr_1.1.4     tibble_3.1.6   
+ [9] ggplot2_3.3.5   tidyverse_1.3.1
 
 loaded via a namespace (and not attached):
  [1] Rcpp_1.0.8       lubridate_1.8.0  getPass_0.2-2    ps_1.6.0        
  [5] assertthat_0.2.1 rprojroot_2.0.2  digest_0.6.29    utf8_1.2.2      
  [9] R6_2.5.1         cellranger_1.1.0 backports_1.4.1  reprex_2.0.1    
 [13] evaluate_0.14    highr_0.9        httr_1.4.2       pillar_1.6.4    
-[17] rlang_0.4.12     readxl_1.3.1     rstudioapi_0.13  whisker_0.4     
-[21] callr_3.7.0      jquerylib_0.1.4  rmarkdown_2.11   munsell_0.5.0   
+[17] rlang_0.4.12     readxl_1.3.1     rstudioapi_0.13  callr_3.7.0     
+[21] whisker_0.4      jquerylib_0.1.4  rmarkdown_2.11   munsell_0.5.0   
 [25] broom_0.7.11     compiler_4.1.1   httpuv_1.6.5     modelr_0.1.8    
 [29] xfun_0.29        pkgconfig_2.0.3  htmltools_0.5.2  tidyselect_1.1.1
 [33] fansi_1.0.2      crayon_1.4.2     tzdb_0.2.0       dbplyr_2.1.1    

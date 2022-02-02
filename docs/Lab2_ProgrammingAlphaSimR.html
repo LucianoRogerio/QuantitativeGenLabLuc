@@ -1,0 +1,1188 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+<meta name="date" content="2022-01-31" />
+
+<title>Reproducible scripting, AlphaSimR, Homework</title>
+
+<script src="site_libs/header-attrs-2.11/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+
+<link rel="icon" href="https://github.com/workflowr/workflowr-assets/raw/main/img/reproducible.png">
+<!-- Add a small amount of space between sections. -->
+<style type="text/css">
+div.section {
+  padding-top: 12px;
+}
+</style>
+
+
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.tab('show');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">QuantitativeGen</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Luciano Solutions
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="LucSolutions.html">Home</a>
+    </li>
+    <li>
+      <a href="Lab1.html">Homework 1</a>
+    </li>
+    <li>
+      <a href="Lab2.html">Homework 2</a>
+    </li>
+  </ul>
+</li>
+<li>
+  <a href="LabClasses.html">LabClasses</a>
+</li>
+<li>
+  <a href="about.html">About</a>
+</li>
+<li>
+  <a href="license.html">License</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">Reproducible scripting, AlphaSimR, Homework</h1>
+<h4 class="author">Jean-Luc Jannink</h4>
+<address class="author_afil">
+USDA-ARS / Cornell<br><h4 class="date">January 31, 2022</h4>
+
+</div>
+
+
+<p>
+<button type="button" class="btn btn-default btn-workflowr btn-workflowr-report" data-toggle="collapse" data-target="#workflowr-report">
+<span class="glyphicon glyphicon-list" aria-hidden="true"></span> workflowr <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
+</button>
+</p>
+<div id="workflowr-report" class="collapse">
+<ul class="nav nav-tabs">
+<li class="active">
+<a data-toggle="tab" href="#summary">Summary</a>
+</li>
+<li>
+<a data-toggle="tab" href="#checks"> Checks <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> </a>
+</li>
+<li>
+<a data-toggle="tab" href="#versions">Past versions</a>
+</li>
+</ul>
+<div class="tab-content">
+<div id="summary" class="tab-pane fade in active">
+<p>
+<strong>Last updated:</strong> 2022-02-01
+</p>
+<p>
+<strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 0
+</p>
+<p>
+<strong>Knit directory:</strong> <code>QuantitativeGen/</code> <span class="glyphicon glyphicon-question-sign" aria-hidden="true" title="This is the local directory in which the code in this file was executed."> </span>
+</p>
+<p>
+This reproducible <a href="https://rmarkdown.rstudio.com">R Markdown</a> analysis was created with <a
+  href="https://github.com/workflowr/workflowr">workflowr</a> (version 1.7.0). The <em>Checks</em> tab describes the reproducibility checks that were applied when the results were created. The <em>Past versions</em> tab lists the development history.
+</p>
+<hr>
+</div>
+<div id="checks" class="tab-pane fade">
+<div id="workflowr-checks" class="panel-group">
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguptodate"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>R Markdown file:</strong> up-to-date </a>
+</p>
+</div>
+<div id="strongRMarkdownfilestronguptodate" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great! Since the R Markdown file has been committed to the Git repository, you know the exact version of the code that produced these results.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongEnvironmentstrongempty"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Environment:</strong> empty </a>
+</p>
+</div>
+<div id="strongEnvironmentstrongempty" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! The global environment was empty. Objects defined in the global environment can affect the analysis in your R Markdown file in unknown ways. For reproduciblity it’s best to always run the code in an empty environment.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSeedstrongcodesetseed20220124code"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Seed:</strong> <code>set.seed(20220124)</code> </a>
+</p>
+</div>
+<div id="strongSeedstrongcodesetseed20220124code" class="panel-collapse collapse">
+<div class="panel-body">
+<p>The command <code>set.seed(20220124)</code> was run prior to running the code in the R Markdown file. Setting a seed ensures that any results that rely on randomness, e.g. subsampling or permutations, are reproducible.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSessioninformationstrongrecorded"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Session information:</strong> recorded </a>
+</p>
+</div>
+<div id="strongSessioninformationstrongrecorded" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! Recording the operating system, R version, and package versions is critical for reproducibility.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongCachestrongnone"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Cache:</strong> none </a>
+</p>
+</div>
+<div id="strongCachestrongnone" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Nice! There were no cached chunks for this analysis, so you can be confident that you successfully produced the results during this run.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongFilepathsstrongrelative"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>File paths:</strong> relative </a>
+</p>
+</div>
+<div id="strongFilepathsstrongrelative" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! Using relative paths to the files within your workflowr project makes it easier to run your code on other machines.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomLucianoRogerioQuantitativeGenLabLuctree79038f79048548f2c55242d7e4538ee0d4be72ebtargetblank79038f7a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/LucianoRogerio/QuantitativeGenLabLuc/tree/79038f79048548f2c55242d7e4538ee0d4be72eb" target="_blank">79038f7</a> </a>
+</p>
+</div>
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomLucianoRogerioQuantitativeGenLabLuctree79038f79048548f2c55242d7e4538ee0d4be72ebtargetblank79038f7a" class="panel-collapse collapse">
+<div class="panel-body">
+<p>
+Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
+</p>
+<p>
+The results in this page were generated with repository version <a href="https://github.com/LucianoRogerio/QuantitativeGenLabLuc/tree/79038f79048548f2c55242d7e4538ee0d4be72eb" target="_blank">79038f7</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+</p>
+<p>
+Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
+</p>
+<pre><code>
+Ignored files:
+    Ignored:    .Rhistory
+    Ignored:    .Rproj.user/
+
+</code></pre>
+<p>
+Note that any generated files, e.g. HTML, png, CSS, etc., are not included in this status report because it is ok for generated content to have uncommitted changes.
+</p>
+</div>
+</div>
+</div>
+</div>
+<hr>
+</div>
+<div id="versions" class="tab-pane fade">
+
+<p>
+These are the previous versions of the repository in which changes were made to the R Markdown (<code>analysis/Lab2_ProgrammingAlphaSimR.Rmd</code>) and HTML (<code>docs/Lab2_ProgrammingAlphaSimR.html</code>) files. If you’ve configured a remote Git repository (see <code>?wflow_git_remote</code>), click on the hyperlinks in the table below to view the files as they were in that past version.
+</p>
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+File
+</th>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+<th>
+Message
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/LucianoRogerio/QuantitativeGenLabLuc/blob/79038f79048548f2c55242d7e4538ee0d4be72eb/analysis/Lab2_ProgrammingAlphaSimR.Rmd" target="_blank">79038f7</a>
+</td>
+<td>
+LucianoRogerio
+</td>
+<td>
+2022-02-01
+</td>
+<td>
+Homework 2
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/LucianoRogerio/QuantitativeGenLabLuc/79038f79048548f2c55242d7e4538ee0d4be72eb/docs/Lab2_ProgrammingAlphaSimR.html" target="_blank">79038f7</a>
+</td>
+<td>
+LucianoRogerio
+</td>
+<td>
+2022-02-01
+</td>
+<td>
+Homework 2
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<hr>
+</div>
+</div>
+</div>
+<style>
+pre {
+  overflow-x: auto;
+}
+pre code {
+  word-wrap: normal;
+  white-space: pre;
+}
+</style>
+<div id="preliminaries" class="section level1">
+<h1>Preliminaries</h1>
+<div id="learning-objectives" class="section level3">
+<h3>Learning objectives</h3>
+<ol style="list-style-type: decimal">
+<li>A bit more on reproducible scripting<br />
+Some other things that matter to me to ensure communicability and reproducibility</li>
+</ol>
+<ol style="list-style-type: lower-roman">
+<li>The main README.md file should contain information about the conditions under which the script was run<br />
+</li>
+<li>I like the script to have a predictable strucure: load and document the packages used, if there is a stochastic component, set the random seed, set and document the parameter values that will affect the script output<br />
+</li>
+<li>Use a consistent directory structure. Happily, such a consistent structure is enforced by <code>workflowr</code><br />
+</li>
+<li>Use the package <code>here</code> to make file locations relative to the base project folder</li>
+</ol>
+<ol start="2" style="list-style-type: decimal">
+<li><p>AlphaSimR<br />
+<code>AlphaSimR</code> is a package to simulate breeding populations and tasks. It is not completely intuitive nor completely well-documented. We will want to use it ultimately to optimize breeding schemes.</p></li>
+<li><p>Prepare a Homework<br />
+In class, we have discussed two interesting phenomena related to quantitative traits:<br />
+</p></li>
+</ol>
+<ol style="list-style-type: lower-roman">
+<li>The “outbreak of variation” that occurs when a heterozygous individual is self-fertilized<br />
+</li>
+<li>Regression toward the mean between parents and progeny<br />
+This Rmarkdown script contains code to illustrate the former. Your homework will be to write a script that illustrates the latter</li>
+</ol>
+</div>
+</div>
+<div id="ordering-of-the-script" class="section level1">
+<h1>Ordering of the script</h1>
+<p>It’s good to have all scripts in the same order with respect to standard tasks</p>
+<div id="load-packages-first" class="section level3">
+<h3>Load packages first</h3>
+<p>If your script depends on external packages, load them at the beginning. This shows users early on what the script dependencies are.</p>
+<pre class="r"><code>packages_used &lt;- c(&quot;AlphaSimR&quot;, &quot;tidyverse&quot;, &quot;workflowr&quot;, &quot;here&quot;)
+ip &lt;- installed.packages()
+all_packages_installed &lt;- TRUE
+for (package in packages_used){
+  if (!(package %in% ip[,&quot;Package&quot;])){
+    print(paste(&quot;Please install package&quot;, package))
+    all_packages_installed &lt;- FALSE
+  }
+}#END packages_used
+if (!all_packages_installed) stop(&quot;Need to install packages&quot;)
+
+library(tidyverse)</code></pre>
+<pre><code>── Attaching packages ─────────────────────────────────────── tidyverse 1.3.1 ──</code></pre>
+<pre><code>✓ ggplot2 3.3.5     ✓ purrr   0.3.4
+✓ tibble  3.1.6     ✓ dplyr   1.0.7
+✓ tidyr   1.1.4     ✓ stringr 1.4.0
+✓ readr   2.1.1     ✓ forcats 0.5.1</code></pre>
+<pre><code>── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+x dplyr::filter() masks stats::filter()
+x dplyr::lag()    masks stats::lag()</code></pre>
+<p>Notice the conflicts report from loading tidyverse. Two packages (<code>dplyr</code> and <code>stats</code>) both have a function called <code>filter</code>. Since dplyr was loaded <em>after</em> stats, if you use the function <code>filter</code>, it will go to the dplyr version. It is dangerous to rely on what order packages have been loaded to determine which <code>filter</code> function you get. R syntax to prevent ambiguity is to write either <code>dplyr::filter</code> or <code>stats::filter</code>. Using that syntax will make your code more reproducible.</p>
+</div>
+<div id="set-file-locations-relative-to-the-project-folder-using-here" class="section level3">
+<h3>Set file locations relative to the project folder using <code>here</code></h3>
+<pre class="r"><code>here::i_am(&quot;analysis/Lab2_ProgrammingAlphaSimR.Rmd&quot;)</code></pre>
+<p>There are two functions I use in the <code>here</code> package: <code>here::i_am</code> and <code>here::here</code>. <code>here::i_am</code> helps <code>here</code> “understand” the folder structure. You give it the name of the script that is currently running, and the path to that script from the base of the overall analysis folder. From that, <code>here</code> deduces where the base of the folder is. After that, <code>here::here</code> locates files from that folder base. If you use the <code>here</code> package, you can send anyone a complicated zipped folder, and they should be able to run the analysis out of the box, regardless of where they put the folder in their own file system.</p>
+</div>
+<div id="document-packages-used" class="section level3">
+<h3>Document packages used</h3>
+<p>This chunk creates a “README.md” file that documents the packages and versions used for future reference.</p>
+<pre class="r"><code>source(here::here(&quot;code/addToREADME.R&quot;))
+addToREADME(paste0(&quot;## &quot;, rmarkdown::metadata$title), append=F)
+addToREADME(c(date(), &quot;&quot;))
+
+packages_info &lt;- ip[packages_used, c(&quot;Package&quot;, &quot;Version&quot;, &quot;Built&quot;)]
+addToREADME(c(&quot;The packages used in this script are:&quot;, &quot;Package, Version, Built&quot;))
+apply(packages_info, 1, function(vec) addToREADME(paste(vec, collapse=&quot; &quot;)))</code></pre>
+<pre><code>              AlphaSimR               tidyverse               workflowr 
+&quot;AlphaSimR 1.0.4 4.1.1&quot; &quot;tidyverse 1.3.1 4.1.0&quot; &quot;workflowr 1.7.0 4.1.1&quot; 
+                   here 
+     &quot;here 1.0.1 4.1.0&quot; </code></pre>
+<pre class="r"><code>addToREADME(&quot;&quot;)</code></pre>
+<p>Hyperlink the <a href="README.md">README file</a> to the report. That makes it easy to find.</p>
+</div>
+<div id="set-random-seed" class="section level3">
+<h3>Set random seed</h3>
+<p>AlphaSimR generates many random numbers (e.g., to simulate Mendelian random segregation). If you want the result of the analysis to come out the same each time (there are pros and cons) you need to set the random seed. Note that <code>workflowr</code> does this by default. If you are not using that package, then be explicit.</p>
+<pre class="r"><code>random_seed &lt;- 45678
+set.seed(random_seed)
+addToREADME(c(paste(&quot;The random seed is&quot;, random_seed), &quot;&quot;))</code></pre>
+</div>
+<div id="script-parameters" class="section level3">
+<h3>Script parameters</h3>
+<p>If the behavior of your script depends on parameters that you set, initialize them early on.</p>
+<pre class="r"><code>nFounders &lt;- 100
+nChr &lt;- 10 # Number of chromosomes
+nSitesPerChr &lt;- 1000 # Number of segregating sites _per chromosome_
+nQTLperChr &lt;- 10 # Vary this parameter to get oligo- versus poly- genic traits
+nF1s &lt;- 200 # We are going to make F1s to test outbreak of variation
+nF2s &lt;- 200 # We are going to make F2s to test outbreak of variation</code></pre>
+</div>
+<div id="parameters-to-readme" class="section level3">
+<h3>Parameters to README</h3>
+<p>It’s good to have all the information together in the README. Chunks of code like this do not need to be included in the report. To exclude them use the “include=FALSE” option in the chunk.</p>
+</div>
+</div>
+<div id="simulating-some-classical-results" class="section level1">
+<h1>Simulating some classical results</h1>
+<p>This script uses <code>AlphaSimR</code> to simulate the “outbreak of variation” that arises when you self-fertilize a hybrid.</p>
+<div id="alphasimr-populations" class="section level3">
+<h3>AlphaSimR populations</h3>
+<p>The basic object of <code>AlphaSimR</code> is the population. To make founders, you first make founder haplotypes from a coalescent simulation, then you define simulation parameters that will link their genetic variation to phenotypic variation, then you make a first diploid population from the founder haplotypes.</p>
+<pre class="r"><code># Create haplotypes for founder population of outbred individuals
+# Note: default effective population size for runMacs is 100
+founderHaps &lt;- AlphaSimR::runMacs(nInd=nFounders, nChr=nChr, 
+                                  segSites=nSitesPerChr)
+# founderHaps &lt;- AlphaSimR::quickHaplo(nInd=nFounders, nChr=nChr, 
+#                                  segSites=nSitesPerChr)
+
+# New global simulation parameters from founder haplotypes
+SP &lt;- AlphaSimR::SimParam$new(founderHaps)
+# Additive trait architecture
+# By default, the genetic variance will be 1
+SP$addTraitA(nQtlPerChr=nQTLperChr)
+
+# Create a new population of founders
+founders &lt;- AlphaSimR::newPop(founderHaps, simParam=SP)
+str(founders)</code></pre>
+<pre><code>Formal class &#39;Pop&#39; [package &quot;AlphaSimR&quot;] with 18 slots
+  ..@ id     : chr [1:100] &quot;1&quot; &quot;2&quot; &quot;3&quot; &quot;4&quot; ...
+  ..@ iid    : int [1:100] 1 2 3 4 5 6 7 8 9 10 ...
+  ..@ mother : chr [1:100] &quot;0&quot; &quot;0&quot; &quot;0&quot; &quot;0&quot; ...
+  ..@ father : chr [1:100] &quot;0&quot; &quot;0&quot; &quot;0&quot; &quot;0&quot; ...
+  ..@ sex    : chr [1:100] &quot;H&quot; &quot;H&quot; &quot;H&quot; &quot;H&quot; ...
+  ..@ nTraits: int 1
+  ..@ gv     : num [1:100, 1] 0.267 0.158 2.274 -0.655 1.145 ...
+  ..@ pheno  : num [1:100, 1] NA NA NA NA NA NA NA NA NA NA ...
+  ..@ ebv    : num[1:100, 0 ] 
+  ..@ gxe    :List of 1
+  .. ..$ : NULL
+  ..@ fixEff : int [1:100] 1 1 1 1 1 1 1 1 1 1 ...
+  ..@ reps   : num [1:100] 1 1 1 1 1 1 1 1 1 1 ...
+  ..@ misc   :List of 100
+  .. ..$ : NULL
+  .. ..$ : NULL
+  .. ..$ : NULL
+  .. ..$ : NULL
+  .. ..$ : NULL
+  .. ..$ : NULL
+  .. ..$ : NULL
+  .. ..$ : NULL
+  .. ..$ : NULL
+  .. ..$ : NULL
+  .. ..$ : NULL
+  .. ..$ : NULL
+  .. ..$ : NULL
+  .. ..$ : NULL
+  .. ..$ : NULL
+  .. ..$ : NULL
+  .. ..$ : NULL
+  .. ..$ : NULL
+  .. ..$ : NULL
+  .. ..$ : NULL
+  .. ..$ : NULL
+  .. ..$ : NULL
+  .. ..$ : NULL
+  .. ..$ : NULL
+  .. ..$ : NULL
+  .. ..$ : NULL
+  .. ..$ : NULL
+  .. ..$ : NULL
+  .. ..$ : NULL
+  .. ..$ : NULL
+  .. ..$ : NULL
+  .. ..$ : NULL
+  .. ..$ : NULL
+  .. ..$ : NULL
+  .. ..$ : NULL
+  .. ..$ : NULL
+  .. ..$ : NULL
+  .. ..$ : NULL
+  .. ..$ : NULL
+  .. ..$ : NULL
+  .. ..$ : NULL
+  .. ..$ : NULL
+  .. ..$ : NULL
+  .. ..$ : NULL
+  .. ..$ : NULL
+  .. ..$ : NULL
+  .. ..$ : NULL
+  .. ..$ : NULL
+  .. ..$ : NULL
+  .. ..$ : NULL
+  .. ..$ : NULL
+  .. ..$ : NULL
+  .. ..$ : NULL
+  .. ..$ : NULL
+  .. ..$ : NULL
+  .. ..$ : NULL
+  .. ..$ : NULL
+  .. ..$ : NULL
+  .. ..$ : NULL
+  .. ..$ : NULL
+  .. ..$ : NULL
+  .. ..$ : NULL
+  .. ..$ : NULL
+  .. ..$ : NULL
+  .. ..$ : NULL
+  .. ..$ : NULL
+  .. ..$ : NULL
+  .. ..$ : NULL
+  .. ..$ : NULL
+  .. ..$ : NULL
+  .. ..$ : NULL
+  .. ..$ : NULL
+  .. ..$ : NULL
+  .. ..$ : NULL
+  .. ..$ : NULL
+  .. ..$ : NULL
+  .. ..$ : NULL
+  .. ..$ : NULL
+  .. ..$ : NULL
+  .. ..$ : NULL
+  .. ..$ : NULL
+  .. ..$ : NULL
+  .. ..$ : NULL
+  .. ..$ : NULL
+  .. ..$ : NULL
+  .. ..$ : NULL
+  .. ..$ : NULL
+  .. ..$ : NULL
+  .. ..$ : NULL
+  .. ..$ : NULL
+  .. ..$ : NULL
+  .. ..$ : NULL
+  .. ..$ : NULL
+  .. ..$ : NULL
+  .. ..$ : NULL
+  .. ..$ : NULL
+  .. ..$ : NULL
+  .. ..$ : NULL
+  .. ..$ : NULL
+  .. .. [list output truncated]
+  ..@ nInd   : int 100
+  ..@ nChr   : int 10
+  ..@ ploidy : int 2
+  ..@ nLoci  : int [1:10] 1000 1000 1000 1000 1000 1000 1000 1000 1000 1000
+  ..@ geno   :List of 10
+  .. ..$ : raw [1:125, 1:2, 1:100] f6 aa ea 90 ...
+  .. ..$ : raw [1:125, 1:2, 1:100] 20 f0 58 ba ...
+  .. ..$ : raw [1:125, 1:2, 1:100] 01 28 d4 2c ...
+  .. ..$ : raw [1:125, 1:2, 1:100] 27 20 65 71 ...
+  .. ..$ : raw [1:125, 1:2, 1:100] 25 1d 17 a5 ...
+  .. ..$ : raw [1:125, 1:2, 1:100] ed 70 06 00 ...
+  .. ..$ : raw [1:125, 1:2, 1:100] 00 82 2b 0d ...
+  .. ..$ : raw [1:125, 1:2, 1:100] 13 4d 88 75 ...
+  .. ..$ : raw [1:125, 1:2, 1:100] 74 28 51 00 ...
+  .. ..$ : raw [1:125, 1:2, 1:100] 16 89 84 a9 ...
+  .. ..- attr(*, &quot;dim&quot;)= int [1:2] 10 1</code></pre>
+</div>
+<div id="population-information" class="section level3">
+<h3>Population information</h3>
+<p>The population has <code>id</code>s. The <code>@mother</code> and <code>@father</code> ids are all zero because this population was made from founder haplotypes, and so does not have diploid parents. The genotypic values <code>gv</code> of the population are calculated for the trait created using <code>SP$addTraitA(nQtlPerChr=nQTLperChr)</code>. Given that there are 10 chromosomes and 10 QTL per chromosome, there are <code>3^(nChr*nQTLperChr)</code> = 5.1537752^{47} different possible genotypic values. The realized genotypic values are accessible with the function <code>gv(founders)</code></p>
+<p>From here, you can treat this population like a named vector using the square braces extraction operator <code>[ ]</code>. Extract individuals by their <code>@id</code> or just by their order in the population using an integer index. For example, pick three random individuals from a population and list their ids. Pick the one with the first id in alphabetical order.</p>
+<pre class="r"><code>test &lt;- founders[c(2, 3, 5, 7, 11)]
+testID &lt;- test@id
+alphaInd &lt;- test[testID %&gt;% order %&gt;% .[1]] # Put testID in alphabetical order
+print(testID)</code></pre>
+<pre><code>[1] &quot;2&quot;  &quot;3&quot;  &quot;5&quot;  &quot;7&quot;  &quot;11&quot;</code></pre>
+<pre class="r"><code>print(alphaInd)</code></pre>
+<pre><code>An object of class &quot;Pop&quot; 
+Ploidy: 2 
+Individuals: 1 
+Chromosomes: 10 
+Loci: 10000 
+Traits: 1 </code></pre>
+<pre class="r"><code>print(alphaInd@id)</code></pre>
+<pre><code>[1] &quot;11&quot;</code></pre>
+</div>
+<div id="outbreak-of-variation" class="section level3">
+<h3>Outbreak of variation</h3>
+<p>Emerson and East (1913) showed that if you crossed two inbreds, the hybrid had similar variation to each inbred, but if you then selfed the hybrid, the offspring varied substantially. This code simulates that result. First, self the founders to homozygosity. The function <code>self</code> self-fertilizes individuals from the population. By default, it creates one selfed individual per parent (controllable with the parameter <code>nProgeny</code>), so this works nicely for single-seed descent.</p>
+<pre class="r"><code># Self-pollinate to for a few generations
+nGenSelf &lt;- 3
+inbredPop &lt;- founders
+for (gen in 1:nGenSelf){
+  inbredPop &lt;- AlphaSimR::self(inbredPop)
+}</code></pre>
+</div>
+<div id="check-homozygosity" class="section level3">
+<h3>Check homozygosity</h3>
+<p>Just a sanity check that this has, in fact, created a population of 100 individuals that are appropriately homozygous. Loci are coded 0, 1, 2. So <code>qtl == 1</code> represents the case were a locus is heterozygous. <code>sum(qtl == 1)</code> counts those cases.</p>
+<pre class="r"><code>qtl &lt;- AlphaSimR::pullQtlGeno(inbredPop)
+if (nrow(qtl) != nFounders) stop(&quot;The number of individuals is unexpected&quot;)
+if (ncol(qtl) != nChr * nQTLperChr) stop(&quot;The number of QTL is unexpected&quot;)
+fracHet &lt;- sum(qtl == 1) / (nFounders * nChr * nQTLperChr)
+cat(&quot;Expected fraction heterozygous&quot;, 1 / 2^nGenSelf, &quot;\n&quot;,
+    &quot;Observed fraction heterozygous&quot;, fracHet, &quot;+/-&quot;, 
+    round(2*sqrt(fracHet*(1-fracHet)/(nFounders*nChr*nQTLperChr)), 3), &quot;\n&quot;)</code></pre>
+<pre><code>Expected fraction heterozygous 0.125 
+ Observed fraction heterozygous 0.0368 +/- 0.004 </code></pre>
+<blockquote>
+<p>What was wrong with my reasoning about the Expected fraction heterozygous?</p>
+</blockquote>
+</div>
+<div id="simulate-outbreak-of-variation" class="section level3">
+<h3>Simulate outbreak of variation</h3>
+<p>We will<br />
+1. pick a random pair of inbred individuals<br />
+2. cross that pair<br />
+3. find out the variation in genotypic value among the pair’s progeny<br />
+4. pick a random F1 progeny<br />
+5. self-fertilize that F1<br />
+6. find out the variation in genotypic value among the F1’s progeny<br />
+We will assume a trait that has a heritability of 0.5 in the base, non-inbred population. In <code>AlphaSimR</code>, that means genetic and error variances of 1.</p>
+</div>
+<div id="pick-random-pair-to-make-f1-hybrid" class="section level3">
+<h3>Pick random pair to make F1 hybrid</h3>
+<pre class="r"><code>randomPair &lt;- inbredPop[sample(nFounders, 2)]</code></pre>
+</div>
+<div id="cross-the-pair-to-make-population-of-f1s" class="section level3">
+<h3>Cross the pair to make population of F1s</h3>
+<p>The crossPlan is a <strong>two-column matrix</strong> with as many rows as the number of crosses you want to make, the first column is the <code>@id</code> or the index of the seed parent, and likewise for the pollen parent in the second column. We will make 200 F1s from this random pair, so the matrix has 200 rows. You just want to cross individual 1 with individual 2, so each row contains 1:2.</p>
+<pre class="r"><code>crossPlan &lt;- matrix(rep(1:2, nF1s), ncol=2, byrow=T)
+f1_pop &lt;- AlphaSimR::makeCross(randomPair, crossPlan)</code></pre>
+</div>
+<div id="find-out-the-phenotypic-variation-among-f1s" class="section level3">
+<h3>Find out the phenotypic variation among F1s</h3>
+<p>When you first make a population, <code>AlphaSimR</code> does not assume it has been phenotyped. You can phenotype it using the <code>setPheno</code> function. Note that if you use <code>setPheno</code> on the same population a second time, that will overwrite the phenotypes from the first time. The genotypic variance can be retrieved using the function <code>varG</code>. Really, <code>varG</code> gives all we need to know, but of course that variance is generally not observable in non-simulated reality.</p>
+<pre class="r"><code>f1_pop &lt;- AlphaSimR::setPheno(f1_pop, varE=1)
+cat(&quot;Genotypic variance among F1s&quot;, round(AlphaSimR::varG(f1_pop), 3), &quot;\n&quot;)</code></pre>
+<pre><code>Genotypic variance among F1s 0.075 </code></pre>
+<pre class="r"><code>cat(&quot;Phenotypic variance among F1s&quot;, round(AlphaSimR::varP(f1_pop), 3), &quot;\n&quot;)</code></pre>
+<pre><code>Phenotypic variance among F1s 1.012 </code></pre>
+<pre class="r"><code>hist(AlphaSimR::pheno(f1_pop), main=&quot;Histogram of F1 Phenotypes&quot;)</code></pre>
+<p><img src="figure/Lab2_ProgrammingAlphaSimR.Rmd/Phenotype%20F1s-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no-spaces-Phenotype-F1s-1">
+Past versions of "Phenotype F1s-1.png"
+</button>
+</p>
+<div id="fig-no-spaces-Phenotype-F1s-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/LucianoRogerio/QuantitativeGenLabLuc/blob/79038f79048548f2c55242d7e4538ee0d4be72eb/docs/figure/Lab2_ProgrammingAlphaSimR.Rmd/Phenotype F1s-1.png" target="_blank">79038f7</a>
+</td>
+<td>
+LucianoRogerio
+</td>
+<td>
+2022-02-01
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div id="pick-random-f1" class="section level3">
+<h3>Pick random F1</h3>
+<pre class="r"><code>randomF1 &lt;- f1_pop[sample(nFounders, 1)]</code></pre>
+</div>
+<div id="make-f2-and-observe-phenotypic-variance" class="section level3">
+<h3>Make F2 and observe phenotypic variance</h3>
+<p>When you first make a population, <code>AlphaSimR</code> does not assume it has been phenotyped. You can phenotype it using the <code>setPheno</code> function. Note that if you use <code>setPheno</code> on the same population a second time, that will overwrite the phenotypes from the first time. The genotypic variance can be retrieved using the function <code>varG</code>. Really, <code>varG</code> gives all we need to know, but of course that variance is generally not observable in non-simulated reality.</p>
+<pre class="r"><code>f2_pop &lt;- AlphaSimR::self(randomF1, nProgeny=nF2s)
+f2_pop &lt;- AlphaSimR::setPheno(f2_pop, varE=1)
+cat(&quot;Genotypic variance among F2s&quot;, round(AlphaSimR::varG(f2_pop), 3), &quot;\n&quot;)</code></pre>
+<pre><code>Genotypic variance among F2s 0.47 </code></pre>
+<pre class="r"><code>cat(&quot;Phenotypic variance among F2s&quot;, round(AlphaSimR::varP(f2_pop), 3), &quot;\n&quot;)</code></pre>
+<pre><code>Phenotypic variance among F2s 1.273 </code></pre>
+<pre class="r"><code>hist(AlphaSimR::pheno(f2_pop), main=&quot;Histogram of F2 Phenotypes&quot;)</code></pre>
+<p><img src="figure/Lab2_ProgrammingAlphaSimR.Rmd/Make%20F2-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no-spaces-Make-F2-1">
+Past versions of "Make F2-1.png"
+</button>
+</p>
+<div id="fig-no-spaces-Make-F2-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/LucianoRogerio/QuantitativeGenLabLuc/blob/79038f79048548f2c55242d7e4538ee0d4be72eb/docs/figure/Lab2_ProgrammingAlphaSimR.Rmd/Make F2-1.png" target="_blank">79038f7</a>
+</td>
+<td>
+LucianoRogerio
+</td>
+<td>
+2022-02-01
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div id="illustrate-herehere-by-writing-a-file" class="section level3">
+<h3>Illustrate <code>here::here</code> by writing a file</h3>
+<p>Just to practice again using the here package because it makes life easy.</p>
+<pre class="r"><code>utils::write.csv(qtl, here::here(&quot;output&quot;, &quot;QTLgenotypes.csv&quot;))</code></pre>
+</div>
+</div>
+<div id="homework" class="section level1">
+<h1>Homework</h1>
+<p>Illustrate regression to the mean between parents and offspring using AlphaSimR<br />
+1. You know how to create a population – create a population of parents<br />
+2. You know how to get phenotypes from that population<br />
+3. You want to randomly mate that population to get progeny that will be regressed to the mean. Create a <code>crossPlan</code> matrix like I did to generate the F1s, except that each row should have randomly-picked parents, rather than 1 and 2 like for the F1s. There is also a command <code>AlphaSimR::randCross</code>. Check out its documentation. If you use that command, you will have to find the pedigree of the progeny using the <code>@mother</code> and <code>@father</code> ids of the progeny population and match those up to the parent population. If you make the crossPlan, then it gives you the seed and pollen parent ids.<br />
+4. Having made the progeny population, phenotype it also<br />
+5. Use each row of the <code>crossPlan</code> to find the two parents and calculate their phenotypic mean<br />
+6. Make a scatterplot of the progeny phenotypes against the parent mean phenotypes</p>
+<blockquote>
+<p>What is the regression coefficient?<br />
+How much closer to the mean are offspring, on average, compared to their parents?</p>
+</blockquote>
+<div id="homework-grading" class="section level3">
+<h3>Homework grading</h3>
+<p>I want to receive a zipped folder with your homework in it one week from today, by midnight. If you use the <code>workflowr</code> package to create the folder structure, that’s great. You should have created an Rmarkdown script that will create an html file that I can look through. So:<br />
+1. 40 points for just sending in a zipped folder on time<br />
+2. 10 points for each successful step from above, with partial credit<br />
+3. I will subtract 5 points for every day the homework is late</p>
+<br>
+<p>
+<button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
+<span class="glyphicon glyphicon-wrench" aria-hidden="true"></span> Session information
+</button>
+</p>
+<div id="workflowr-sessioninfo" class="collapse">
+<pre class="r"><code>sessionInfo()</code></pre>
+<pre><code>R version 4.1.1 (2021-08-10)
+Platform: aarch64-apple-darwin20 (64-bit)
+Running under: macOS Big Sur 11.6.1
+
+Matrix products: default
+LAPACK: /Library/Frameworks/R.framework/Versions/4.1-arm64/Resources/lib/libRlapack.dylib
+
+locale:
+[1] en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8
+
+attached base packages:
+[1] stats     graphics  grDevices utils     datasets  methods   base     
+
+other attached packages:
+[1] forcats_0.5.1   stringr_1.4.0   dplyr_1.0.7     purrr_0.3.4    
+[5] readr_2.1.1     tidyr_1.1.4     tibble_3.1.6    ggplot2_3.3.5  
+[9] tidyverse_1.3.1
+
+loaded via a namespace (and not attached):
+ [1] Rcpp_1.0.8       here_1.0.1       lubridate_1.8.0  assertthat_0.2.1
+ [5] rprojroot_2.0.2  digest_0.6.29    utf8_1.2.2       R6_2.5.1        
+ [9] cellranger_1.1.0 backports_1.4.1  reprex_2.0.1     evaluate_0.14   
+[13] highr_0.9        httr_1.4.2       pillar_1.6.4     rlang_0.4.12    
+[17] readxl_1.3.1     rstudioapi_0.13  whisker_0.4      jquerylib_0.1.4 
+[21] rmarkdown_2.11   bit_4.0.4        munsell_0.5.0    broom_0.7.11    
+[25] compiler_4.1.1   httpuv_1.6.5     modelr_0.1.8     xfun_0.29       
+[29] pkgconfig_2.0.3  htmltools_0.5.2  tidyselect_1.1.1 workflowr_1.7.0 
+[33] fansi_1.0.2      crayon_1.4.2     tzdb_0.2.0       dbplyr_2.1.1    
+[37] withr_2.4.3      later_1.3.0      grid_4.1.1       jsonlite_1.7.3  
+[41] gtable_0.3.0     lifecycle_1.0.1  DBI_1.1.2        git2r_0.29.0    
+[45] magrittr_2.0.1   scales_1.1.1     vroom_1.5.7      cli_3.1.0       
+[49] stringi_1.7.6    fs_1.5.2         promises_1.2.0.1 xml2_1.3.3      
+[53] bslib_0.3.1      ellipsis_0.3.2   generics_0.1.1   vctrs_0.3.8     
+[57] tools_4.1.1      bit64_4.0.5      glue_1.6.0       hms_1.1.1       
+[61] parallel_4.1.1   fastmap_1.1.0    yaml_2.2.1       colorspace_2.0-2
+[65] AlphaSimR_1.0.4  rvest_1.0.2      knitr_1.37       haven_2.4.3     
+[69] sass_0.4.0      </code></pre>
+</div>
+</div>
+</div>
+
+
+<!-- Adjust MathJax settings so that all math formulae are shown using
+TeX fonts only; see
+https://docs.mathjax.org/en/latest/web/configuration.html. This will make
+the presentation more consistent at the cost of the webpage sometimes
+taking slightly longer to load. Note that this only works because the
+footer is added to webpages before the MathJax javascript. -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    "HTML-CSS": { availableFonts: ["TeX"] }
+  });
+</script>
+
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

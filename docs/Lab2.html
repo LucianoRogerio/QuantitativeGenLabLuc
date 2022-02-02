@@ -11,9 +11,9 @@
 
 <meta name="author" content="LucianoRogerio" />
 
-<meta name="date" content="2022-01-24" />
+<meta name="date" content="2022-01-31" />
 
-<title>Lab1 Luciano Solution</title>
+<title>Lab2 Luciano Solution</title>
 
 <script src="site_libs/header-attrs-2.11/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
@@ -371,9 +371,9 @@ div.tocify {
 
 
 
-<h1 class="title toc-ignore">Lab1 Luciano Solution</h1>
+<h1 class="title toc-ignore">Lab2 Luciano Solution</h1>
 <h4 class="author">LucianoRogerio</h4>
-<h4 class="date">2022-01-24</h4>
+<h4 class="date">2022-01-31</h4>
 
 </div>
 
@@ -524,7 +524,7 @@ Note that any generated files, e.g. HTML, png, CSS, etc., are not included in t
 <div id="versions" class="tab-pane fade">
 
 <p>
-These are the previous versions of the repository in which changes were made to the R Markdown (<code>analysis/Lab1.Rmd</code>) and HTML (<code>docs/Lab1.html</code>) files. If you’ve configured a remote Git repository (see <code>?wflow_git_remote</code>), click on the hyperlinks in the table below to view the files as they were in that past version.
+These are the previous versions of the repository in which changes were made to the R Markdown (<code>analysis/Lab2.Rmd</code>) and HTML (<code>docs/Lab2.html</code>) files. If you’ve configured a remote Git repository (see <code>?wflow_git_remote</code>), click on the hyperlinks in the table below to view the files as they were in that past version.
 </p>
 <div class="table-responsive">
 <table class="table table-condensed table-hover">
@@ -550,10 +550,10 @@ Message
 <tbody>
 <tr>
 <td>
-html
+Rmd
 </td>
 <td>
-<a href="https://rawcdn.githack.com/LucianoRogerio/QuantitativeGenLabLuc/79038f79048548f2c55242d7e4538ee0d4be72eb/docs/Lab1.html" target="_blank">79038f7</a>
+<a href="https://github.com/LucianoRogerio/QuantitativeGenLabLuc/blob/79038f79048548f2c55242d7e4538ee0d4be72eb/analysis/Lab2.Rmd" target="_blank">79038f7</a>
 </td>
 <td>
 LucianoRogerio
@@ -567,70 +567,19 @@ Homework 2
 </tr>
 <tr>
 <td>
-Rmd
-</td>
-<td>
-<a href="https://github.com/LucianoRogerio/QuantitativeGenLabLuc/blob/d5ede57ce14fb4c76a46331d94cac61b8c32bf00/analysis/Lab1.Rmd" target="_blank">d5ede57</a>
-</td>
-<td>
-LucianoRogerio
-</td>
-<td>
-2022-01-24
-</td>
-<td>
-First Lab exercises
-</td>
-</tr>
-<tr>
-<td>
 html
 </td>
 <td>
-<a href="https://rawcdn.githack.com/LucianoRogerio/QuantitativeGenLabLuc/d5ede57ce14fb4c76a46331d94cac61b8c32bf00/docs/Lab1.html" target="_blank">d5ede57</a>
+<a href="https://rawcdn.githack.com/LucianoRogerio/QuantitativeGenLabLuc/79038f79048548f2c55242d7e4538ee0d4be72eb/docs/Lab2.html" target="_blank">79038f7</a>
 </td>
 <td>
 LucianoRogerio
 </td>
 <td>
-2022-01-24
+2022-02-01
 </td>
 <td>
-First Lab exercises
-</td>
-</tr>
-<tr>
-<td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/LucianoRogerio/QuantitativeGenLabLuc/60fd515d8bcf204625d26b14feb9733491871dd8/docs/Lab1.html" target="_blank">60fd515</a>
-</td>
-<td>
-LucianoRogerio
-</td>
-<td>
-2022-01-24
-</td>
-<td>
-Build site.
-</td>
-</tr>
-<tr>
-<td>
-Rmd
-</td>
-<td>
-<a href="https://github.com/LucianoRogerio/QuantitativeGenLabLuc/blob/aba23b1401ae3e0d285a7e12619e72bb7438ab49/analysis/Lab1.Rmd" target="_blank">aba23b1</a>
-</td>
-<td>
-LucianoRogerio
-</td>
-<td>
-2022-01-24
-</td>
-<td>
-wflow_publish(files = c("analysis/index.Rmd", "analysis/about.Rmd",
+Homework 2
 </td>
 </tr>
 </tbody>
@@ -640,28 +589,256 @@ wflow_publish(files = c("analysis/index.Rmd", "analysis/about.Rmd",
 </div>
 </div>
 </div>
-<div id="homework---jan-24-2022" class="section level1">
-<h1>Homework - Jan 24 2022</h1>
-<ol style="list-style-type: decimal">
-<li>Use <code>workflowr</code> to set up the file structure for this lab (I will walk you through it during our first lab session)</li>
-<li>Using this markdown file as a starting point, or creating your own markdown file, write code to calculate the variance using vector multiplication (no loops). Put the markdown file in the appropriate folder and build the html files using workflowr.</li>
-</ol>
-<pre class="r"><code># Using set.seed() to avoid issues of merge in GitHub
-set.seed(01242022)
+<div id="menu" />
 
-# Simulation of a Thousand observations assuming a normal distribution with mean 15 and standard deviation of 10
-s &lt;- rnorm(n = 1000, mean = 15, sd = 10)
 
-sd &lt;- s - mean(s, na.rm = TRUE)
+<div id="homework---jan-31-2022" class="section level1">
+<h1>Homework - Jan 31 2022</h1>
+<p>Illustrate regression to the mean between parents and offspring using AlphaSimR<br />
+1. You know how to create a population – create a population of parents. <a href="#P1">Answer</a><br />
+2. You know how to get phenotypes from that population. <a href="#P2">Answer</a><br />
+3. You want to randomly mate that population to get progeny that will be regressed to the mean. Create a <code>crossPlan</code> matrix like I did to generate the F1s, except that each row should have randomly-picked parents, rather than 1 and 2 like for the F1s. There is also a command <code>AlphaSimR::randCross</code>. Check out its documentation. If you use that command, you will have to find the pedigree of the progeny using the <code>@mother</code> and <code>@father</code> ids of the progeny population and match those up to the parent population. If you make the crossPlan, then it gives you the seed and pollen parent ids. <a href="#P3">Answer</a><br />
+4. Having made the progeny population, phenotype it also. <a href="#P4">Answer</a><br />
+5. Use each row of the <code>crossPlan</code> to find the two parents and calculate their phenotypic mean. <a href="#P5">Answer</a><br />
+6. Make a scatterplot of the progeny phenotypes against the parent mean phenotypes. <a href="#P6">Answer</a></p>
+<blockquote>
+<p>What is the regression coefficient?</p>
+</blockquote>
+<ul>
+<li>Regression coefficient in this case is the broad sense heritability index of the simulated trait</li>
+</ul>
+<blockquote>
+<p>How much closer to the mean are offspring, on average, compared to their parents?</p>
+</blockquote>
+<ul>
+<li>The offspring mean observed were 0.42 of the parent mean in one of my Simulations, but this value keeps changing if I run all again, even using the set.seed.</li>
+<li>I was expecting 0.5 that was the simulation parameter added to broad sense heritability, <a href="#P7">results</a></li>
+</ul>
+<div id="checking-if-the-packages-required-are-installed" class="section level3">
+<h3>Checking if the packages required are installed</h3>
+<pre class="r"><code>packages_used &lt;- c(&quot;AlphaSimR&quot;, &quot;tidyverse&quot;, &quot;workflowr&quot;, &quot;here&quot;)
+ip &lt;- installed.packages()
+all_packages_installed &lt;- TRUE
+for (package in packages_used){
+  if (!(package %in% ip[, &quot;Package&quot;])){
+    print(paste(&quot;Please install package&quot;, package, sep = &quot; &quot;))
+    all_packages_installed &lt;- FALSE
+  }
+}#END packages_used
+if (!all_packages_installed) stop(&quot;Need to install packages&quot;)
 
-# Matrix method to estimate variance of a population sample
-VarS1 &lt;- (t(sd)%*%sd)/(length(sd)-1)
+library(tidyverse); library(here)</code></pre>
+<pre><code>── Attaching packages ─────────────────────────────────────── tidyverse 1.3.1 ──</code></pre>
+<pre><code>✓ ggplot2 3.3.5     ✓ purrr   0.3.4
+✓ tibble  3.1.6     ✓ dplyr   1.0.7
+✓ tidyr   1.1.4     ✓ stringr 1.4.0
+✓ readr   2.1.1     ✓ forcats 0.5.1</code></pre>
+<pre><code>── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+x dplyr::filter() masks stats::filter()
+x dplyr::lag()    masks stats::lag()</code></pre>
+<pre><code>here() starts at /Users/lbd54/Documents/GitHub/QuantitativeGen</code></pre>
+<p>loading the here package it already fix the Project directory as the working directory.</p>
+</div>
+<div id="loading-the-packages-and-creating-a-readme.rmd-to-add-information-of-software-used-in-this-analysis" class="section level3">
+<h3>Loading the packages and creating a README.Rmd to add information of software used in this analysis</h3>
+<pre class="r"><code>source(here::here(&quot;code/addToREADME.R&quot;))
+addToREADME(paste0(&quot;## &quot;, rmarkdown::metadata$title), append = F)
+addToREADME(c(date(), &quot;&quot;))
 
-colnames(VarS1) &lt;- &quot;Var&quot;
-print(VarS1)</code></pre>
-<pre><code>          Var
-[1,] 95.71998</code></pre>
-<p>The variance estimate to this set.seed sample scenario is 95.71998</p>
+packages_info &lt;- ip[packages_used, c(&quot;Package&quot;, &quot;Version&quot;, &quot;Built&quot;)]
+addToREADME(c(&quot;The packages used in this script are:&quot;, &quot;Package, Version, Built&quot;))
+apply(packages_info, 1, function(vec) addToREADME(paste(vec, collapse = &quot; &quot;)))</code></pre>
+<pre><code>              AlphaSimR               tidyverse               workflowr 
+&quot;AlphaSimR 1.0.4 4.1.1&quot; &quot;tidyverse 1.3.1 4.1.0&quot; &quot;workflowr 1.7.0 4.1.1&quot; 
+                   here 
+     &quot;here 1.0.1 4.1.0&quot; </code></pre>
+<div id="P1" />
+
+</div>
+<div id="seed-set-and-simulations-parameters" class="section level3">
+<h3>Seed set and Simulations parameters</h3>
+<pre class="r"><code>set.seed(1312022)
+
+addToREADME(&quot;&quot;)
+
+addToREADME(paste(&quot;set.seed =&quot;, &quot;1312022&quot;, sep = &quot; &quot;))
+addToREADME(&quot;&quot;)
+
+# Simulations parameters for the population
+nFounders &lt;- 100
+inbred &lt;- FALSE
+ploidy &lt;- 2L
+nChr &lt;- 18
+effPopSize &lt;- 200
+segSites &lt;- 1650
+nQTL &lt;- 1000
+nSNP &lt;- 500
+nCores &lt;- 4
+
+
+addToREADME(c(paste(&quot;Number of Founders --&gt;&quot;, nFounders, sep = &quot; &quot;),
+              paste(&quot;Is the founders inbred?&quot;, inbred, sep = &quot; &quot;),
+              paste(&quot;Which is the ploidy?&quot;, ploidy, sep = &quot; &quot;),
+              paste(&quot;Number of Chromosomes --&gt;&quot;, nChr, sep = &quot; &quot;),
+              paste(&quot;Size of the effective population --&gt;&quot;, effPopSize, sep = &quot; &quot;),
+              paste(&quot;Number of quatitative loci traits per chromosome expected affecting the trait --&gt;&quot;, nQTL, sep = &quot; &quot;),
+              paste(&quot;Number of SNP markers per chromosome --&gt;&quot;, nSNP, sep = &quot; &quot;),
+              paste(&quot;Number of cores to apply parallel to the simulations of the chromosomes --&gt;&quot;, nCores, sep = &quot; &quot;)))
+
+addToREADME(&quot; &quot;)</code></pre>
+<div id="P2" />
+
+
+</div>
+<div id="creating-the-founder-population-and-the-parents-population" class="section level3">
+<h3>Creating the Founder population and the parents population</h3>
+<pre class="r"><code>founderPop &lt;- AlphaSimR::runMacs(nInd = nFounders,
+                                 inbred = inbred,
+                                 ploidy = ploidy,
+                                 nChr = nChr,
+                                 segSites = segSites,
+                                 nThreads = nCores)
+
+addToREADME(&quot;Founder Pop Info&quot;)
+addToREADME(&quot;----------------&quot;)
+capture.output(founderPop, file = here::here(&quot;docs/README.md&quot;), type = &quot;output&quot;, append = TRUE)
+addToREADME(&quot; &quot;)
+
+SP &lt;- AlphaSimR::SimParam$new(founderPop = founderPop)$addTraitA(nQtlPerChr = nQTL)$setVarE(H2 = 0.5)
+
+# Simulating the Founder Pop with phenotype
+foundersID &lt;- AlphaSimR::newPop(rawPop = founderPop,
+                                    simParam = SP)
+
+addToREADME(&quot;Founders Ids Info&quot;)
+addToREADME(&quot;----------------&quot;)
+capture.output(foundersID, file = here::here(&quot;docs/README.md&quot;), type = &quot;output&quot;, append = TRUE)
+addToREADME(&quot; &quot;)</code></pre>
+<div id="P3" />
+
+</div>
+<div id="simulating-the-f1-and-f2-populations" class="section level3">
+<h3>Simulating the F1 and F2 populations</h3>
+<pre class="r"><code>F1 &lt;- AlphaSimR::selectCross(pop = foundersID,
+                             nInd = 35,
+                             nCrosses = 200,
+                             use = &quot;pheno&quot;)
+F1 &lt;- AlphaSimR::setPheno(F1)
+ParentsF1ID &lt;- c(F1@mother,F1@father) %&gt;% unique %&gt;% .[order(as.numeric(.))]
+ParentsF1 &lt;- AlphaSimR::selectInd(foundersID, nInd = 35, candidates = ParentsF1ID)
+ParentsF1 &lt;- AlphaSimR::setPheno(ParentsF1)
+F2 &lt;- AlphaSimR::self(F1)
+F2 &lt;- AlphaSimR::setPheno(F2)
+
+addToREADME(&quot;Populations Sim&quot;)
+addToREADME(&quot;---------------&quot;)
+addToREADME(&quot;Parents F1 Selected&quot;)
+addToREADME(&quot;-------------------&quot;)
+capture.output(ParentsF1, file = here::here(&quot;docs/README.md&quot;), type = &quot;output&quot;, append = TRUE)
+addToREADME(&quot; &quot;)
+addToREADME(&quot;F1 Simulated&quot;)
+addToREADME(&quot;------------&quot;)
+capture.output(F1, file = here::here(&quot;docs/README.md&quot;), type = &quot;output&quot;, append = TRUE)
+addToREADME(&quot; &quot;)
+addToREADME(&quot;F2 Simulated&quot;)
+addToREADME(&quot;------------&quot;)
+capture.output(F2, file = here::here(&quot;docs/README.md&quot;), type = &quot;output&quot;, append = TRUE)
+addToREADME(&quot; &quot;)</code></pre>
+<div id="P4" />
+
+</div>
+<div id="obtain-the-data-from-each-population" class="section level3">
+<h3>Obtain the data from each Population</h3>
+<pre class="r"><code>ParentsF1Dt &lt;- data.frame(ID = ParentsF1@id,
+                          pheno = ParentsF1@pheno)
+
+F1Dt &lt;- data.frame(ID = F1@id,
+                   mother = F1@mother,
+                   father = F1@father,
+                   pheno = F1@pheno)
+
+F2Dt &lt;- data.frame(ID = F2@id,
+                   mother = F2@mother,
+                   father = F2@father,
+                   pheno = F2@pheno)</code></pre>
+<div id="P5" />
+
+</div>
+<div id="prepare-the-pop-data-with-the-pheno-of-the-parents-in-the-same-file" class="section level3">
+<h3>Prepare the Pop data with the Pheno of the parents in the same file</h3>
+<pre class="r"><code>F1Dt2 &lt;- left_join(F1Dt, ParentsF1Dt, by = c(&quot;mother&quot; = &quot;ID&quot;), suffix = c(&quot;&quot;, &quot;.mother&quot;)) %&gt;%
+  left_join(., ParentsF1Dt, by = c(&quot;father&quot; = &quot;ID&quot;), suffix = c(&quot;&quot;, &quot;.father&quot;)) %&gt;%
+  dplyr::mutate(pheno.ParMean = (pheno.mother + pheno.father)/2,
+                Pop = &quot;F1&quot;)
+
+F2Dt2 &lt;- left_join(F2Dt, ParentsF1Dt, by = c(&quot;mother&quot; = &quot;ID&quot;), suffix = c(&quot;&quot;, &quot;.mother&quot;)) %&gt;%
+  left_join(., ParentsF1Dt, by = c(&quot;father&quot; = &quot;ID&quot;), suffix = c(&quot;&quot;, &quot;.father&quot;)) %&gt;%
+  dplyr::mutate(pheno.ParMean = (pheno.mother + pheno.father)/2,
+                Pop = &quot;F2&quot;)
+
+Data &lt;- rbind(F1Dt2, F2Dt2)</code></pre>
+<div id="P6" />
+
+</div>
+<div id="figure-of-the-regression-of-the-f1-and-f2-progeny-by-it-parent-mean" class="section level3">
+<h3>Figure of the regression of the F1 and F2 progeny by it parent mean</h3>
+<pre class="r"><code>Data %&gt;% 
+  ggplot(aes(x = pheno.ParMean, y = pheno, color = Pop)) +
+  geom_point() +
+  geom_smooth(method = &quot;lm&quot;, alpha = 0.25) +
+  geom_abline(intercept = 0, slope = 1, color = &quot;red&quot;) +
+  theme_bw() + xlab(&quot;Parent Mean&quot;) + ylab(&quot;Progeny&quot;)</code></pre>
+<pre><code>`geom_smooth()` using formula &#39;y ~ x&#39;</code></pre>
+<p><img src="figure/Lab2.Rmd/Figure-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-Figure-1">
+Past versions of Figure-1.png
+</button>
+</p>
+<div id="fig-Figure-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/LucianoRogerio/QuantitativeGenLabLuc/blob/79038f79048548f2c55242d7e4538ee0d4be72eb/docs/figure/Lab2.Rmd/Figure-1.png" target="_blank">79038f7</a>
+</td>
+<td>
+LucianoRogerio
+</td>
+<td>
+2022-02-01
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div id="P7" />
+
+</div>
+<div id="estimation-of-the-regression-coefficient" class="section level3">
+<h3>Estimation of the regression coefficient</h3>
+<pre class="r"><code>Data %&gt;% filter(Pop == &quot;F1&quot;) %&gt;%
+  lm(formula = .$pheno ~ .$&#39;pheno.ParMean&#39;) %&gt;%
+  coefficients %&gt;% .[1] %&gt;% round(., digits = 2) %&gt;%
+  paste(&quot;The observed broad sense heritability is&quot;, .,
+        &quot;while the expected was&quot;, SP$varG/(SP$varG + SP$varE), sep = &quot; &quot;)</code></pre>
+<pre><code>[1] &quot;The observed broad sense heritability is 0.49 while the expected was 0.5&quot;</code></pre>
+<p><a href="#menu">Menu</a></p>
 <p><a href="LucSolutions.html">Home</a></p>
 <br>
 <p>
@@ -684,17 +861,32 @@ locale:
 attached base packages:
 [1] stats     graphics  grDevices utils     datasets  methods   base     
 
+other attached packages:
+ [1] here_1.0.1      forcats_0.5.1   stringr_1.4.0   dplyr_1.0.7    
+ [5] purrr_0.3.4     readr_2.1.1     tidyr_1.1.4     tibble_3.1.6   
+ [9] ggplot2_3.3.5   tidyverse_1.3.1
+
 loaded via a namespace (and not attached):
- [1] Rcpp_1.0.8       whisker_0.4      knitr_1.37       magrittr_2.0.1  
- [5] workflowr_1.7.0  R6_2.5.1         rlang_0.4.12     fastmap_1.1.0   
- [9] fansi_1.0.2      stringr_1.4.0    tools_4.1.1      xfun_0.29       
-[13] utf8_1.2.2       git2r_0.29.0     jquerylib_0.1.4  htmltools_0.5.2 
-[17] ellipsis_0.3.2   rprojroot_2.0.2  yaml_2.2.1       digest_0.6.29   
-[21] tibble_3.1.6     lifecycle_1.0.1  crayon_1.4.2     later_1.3.0     
-[25] sass_0.4.0       vctrs_0.3.8      promises_1.2.0.1 fs_1.5.2        
-[29] glue_1.6.0       evaluate_0.14    rmarkdown_2.11   stringi_1.7.6   
-[33] bslib_0.3.1      compiler_4.1.1   pillar_1.6.4     jsonlite_1.7.3  
-[37] httpuv_1.6.5     pkgconfig_2.0.3 </code></pre>
+ [1] httr_1.4.2       sass_0.4.0       bit64_4.0.5      vroom_1.5.7     
+ [5] jsonlite_1.7.3   splines_4.1.1    modelr_0.1.8     bslib_0.3.1     
+ [9] assertthat_0.2.1 highr_0.9        cellranger_1.1.0 yaml_2.2.1      
+[13] pillar_1.6.4     backports_1.4.1  lattice_0.20-45  glue_1.6.0      
+[17] digest_0.6.29    promises_1.2.0.1 rvest_1.0.2      colorspace_2.0-2
+[21] htmltools_0.5.2  httpuv_1.6.5     Matrix_1.4-0     pkgconfig_2.0.3 
+[25] broom_0.7.11     haven_2.4.3      scales_1.1.1     whisker_0.4     
+[29] later_1.3.0      tzdb_0.2.0       git2r_0.29.0     mgcv_1.8-38     
+[33] farver_2.1.0     generics_0.1.1   ellipsis_0.3.2   withr_2.4.3     
+[37] AlphaSimR_1.0.4  cli_3.1.0        magrittr_2.0.1   crayon_1.4.2    
+[41] readxl_1.3.1     evaluate_0.14    fs_1.5.2         fansi_1.0.2     
+[45] nlme_3.1-153     xml2_1.3.3       tools_4.1.1      hms_1.1.1       
+[49] lifecycle_1.0.1  munsell_0.5.0    reprex_2.0.1     compiler_4.1.1  
+[53] jquerylib_0.1.4  rlang_0.4.12     grid_4.1.1       rstudioapi_0.13 
+[57] labeling_0.4.2   rmarkdown_2.11   gtable_0.3.0     DBI_1.1.2       
+[61] R6_2.5.1         lubridate_1.8.0  knitr_1.37       fastmap_1.1.0   
+[65] bit_4.0.4        utf8_1.2.2       workflowr_1.7.0  rprojroot_2.0.2 
+[69] stringi_1.7.6    parallel_4.1.1   Rcpp_1.0.8       vctrs_0.3.8     
+[73] dbplyr_2.1.1     tidyselect_1.1.1 xfun_0.29       </code></pre>
+</div>
 </div>
 </div>
 

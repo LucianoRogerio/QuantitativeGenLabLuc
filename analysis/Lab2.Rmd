@@ -1,0 +1,219 @@
+---
+title: "Lab2 Luciano Solution"
+author: "LucianoRogerio"
+date: "2022-01-31"
+output: workflowr::wflow_html
+editor_options:
+  chunk_output_type: console
+---
+
+<div id="menu" />
+
+
+# Homework - Jan 31 2022
+
+Illustrate regression to the mean between parents and offspring using AlphaSimR  
+1. You know how to create a population -- create a population of parents. [Answer](#P1)  
+2. You know how to get phenotypes from that population. [Answer](#P2)  
+3. You want to randomly mate that population to get progeny that will be regressed to the mean. Create a `crossPlan` matrix like I did to generate the F1s, except that each row should have randomly-picked parents, rather than 1 and 2 like for the F1s. There is also a command `AlphaSimR::randCross`.  Check out its documentation. If you use that command, you will have to find the pedigree of the progeny using the `@mother` and `@father` ids of the progeny population and match those up to the parent population. If you make the crossPlan, then it gives you the seed and pollen parent ids.  [Answer](#P3)  
+4. Having made the progeny population, phenotype it also.  [Answer](#P4)  
+5. Use each row of the `crossPlan` to find the two parents and calculate their phenotypic mean.  [Answer](#P5)  
+6. Make a scatterplot of the progeny phenotypes against the parent mean phenotypes.  [Answer](#P6)  
+
+> What is the regression coefficient?
+
+- Regression coefficient in this case is the broad sense heritability index of the simulated trait
+
+> How much closer to the mean are offspring, on average, compared to their parents? 
+
+- The offspring mean observed were 0.42 of the parent mean in one of my Simulations, but this value keeps changing if I run all again, even using the set.seed.
+- I was expecting 0.5 that was the simulation parameter added to broad sense heritability, [results](#P7)
+
+### Checking if the packages required are installed
+```{r Checking installed packages, message = TRUE}
+packages_used <- c("AlphaSimR", "tidyverse", "workflowr", "here")
+ip <- installed.packages()
+all_packages_installed <- TRUE
+for (package in packages_used){
+  if (!(package %in% ip[, "Package"])){
+    print(paste("Please install package", package, sep = " "))
+    all_packages_installed <- FALSE
+  }
+}#END packages_used
+if (!all_packages_installed) stop("Need to install packages")
+
+library(tidyverse); library(here)
+```
+
+loading the here package it already fix the Project directory as the working directory.
+
+### Loading the packages and creating a README.Rmd to add information of software used in this analysis
+```{r Load packages and README file, message = TRUE}
+source(here::here("code/addToREADME.R"))
+addToREADME(paste0("## ", rmarkdown::metadata$title), append = F)
+addToREADME(c(date(), ""))
+
+packages_info <- ip[packages_used, c("Package", "Version", "Built")]
+addToREADME(c("The packages used in this script are:", "Package, Version, Built"))
+apply(packages_info, 1, function(vec) addToREADME(paste(vec, collapse = " ")))
+```
+
+<div id="P1" />
+
+### Seed set and Simulations parameters
+```{r seed set and simulations parameters, message = TRUE}
+set.seed(1312022)
+
+addToREADME("")
+
+addToREADME(paste("set.seed =", "1312022", sep = " "))
+addToREADME("")
+
+# Simulations parameters for the population
+nFounders <- 100
+inbred <- FALSE
+ploidy <- 2L
+nChr <- 18
+effPopSize <- 200
+segSites <- 1650
+nQTL <- 1000
+nSNP <- 500
+nCores <- 4
+
+
+addToREADME(c(paste("Number of Founders -->", nFounders, sep = " "),
+              paste("Is the founders inbred?", inbred, sep = " "),
+              paste("Which is the ploidy?", ploidy, sep = " "),
+              paste("Number of Chromosomes -->", nChr, sep = " "),
+              paste("Size of the effective population -->", effPopSize, sep = " "),
+              paste("Number of quatitative loci traits per chromosome expected affecting the trait -->", nQTL, sep = " "),
+              paste("Number of SNP markers per chromosome -->", nSNP, sep = " "),
+              paste("Number of cores to apply parallel to the simulations of the chromosomes -->", nCores, sep = " ")))
+
+addToREADME(" ")
+```
+
+<div id="P2" />
+
+
+### Creating the Founder population and the parents population
+```{r Founder and parent populations, message = TRUE}
+founderPop <- AlphaSimR::runMacs(nInd = nFounders,
+                                 inbred = inbred,
+                                 ploidy = ploidy,
+                                 nChr = nChr,
+                                 segSites = segSites,
+                                 nThreads = nCores)
+
+addToREADME("Founder Pop Info")
+addToREADME("----------------")
+capture.output(founderPop, file = here::here("docs/README.md"), type = "output", append = TRUE)
+addToREADME(" ")
+
+SP <- AlphaSimR::SimParam$new(founderPop = founderPop)$addTraitA(nQtlPerChr = nQTL)$setVarE(H2 = 0.5)
+
+# Simulating the Founder Pop with phenotype
+foundersID <- AlphaSimR::newPop(rawPop = founderPop,
+                                    simParam = SP)
+
+addToREADME("Founders Ids Info")
+addToREADME("----------------")
+capture.output(foundersID, file = here::here("docs/README.md"), type = "output", append = TRUE)
+addToREADME(" ")
+```
+
+
+<div id="P3" />
+
+### Simulating the F1 and F2 populations
+```{r 'Simulated F1 and F2 pop', message = TRUE}
+F1 <- AlphaSimR::selectCross(pop = foundersID,
+                             nInd = 35,
+                             nCrosses = 200,
+                             use = "pheno")
+F1 <- AlphaSimR::setPheno(F1)
+ParentsF1ID <- c(F1@mother,F1@father) %>% unique %>% .[order(as.numeric(.))]
+ParentsF1 <- AlphaSimR::selectInd(foundersID, nInd = 35, candidates = ParentsF1ID)
+ParentsF1 <- AlphaSimR::setPheno(ParentsF1)
+F2 <- AlphaSimR::self(F1)
+F2 <- AlphaSimR::setPheno(F2)
+
+addToREADME("Populations Sim")
+addToREADME("---------------")
+addToREADME("Parents F1 Selected")
+addToREADME("-------------------")
+capture.output(ParentsF1, file = here::here("docs/README.md"), type = "output", append = TRUE)
+addToREADME(" ")
+addToREADME("F1 Simulated")
+addToREADME("------------")
+capture.output(F1, file = here::here("docs/README.md"), type = "output", append = TRUE)
+addToREADME(" ")
+addToREADME("F2 Simulated")
+addToREADME("------------")
+capture.output(F2, file = here::here("docs/README.md"), type = "output", append = TRUE)
+addToREADME(" ")
+```
+
+
+<div id="P4" />
+
+### Obtain the data from each Population
+```{r Data collecting, message = TRUE}
+
+ParentsF1Dt <- data.frame(ID = ParentsF1@id,
+                          pheno = ParentsF1@pheno)
+
+F1Dt <- data.frame(ID = F1@id,
+                   mother = F1@mother,
+                   father = F1@father,
+                   pheno = F1@pheno)
+
+F2Dt <- data.frame(ID = F2@id,
+                   mother = F2@mother,
+                   father = F2@father,
+                   pheno = F2@pheno)
+```
+
+<div id="P5" />
+
+### Prepare the Pop data with the Pheno of the parents in the same file
+```{r Joint the Parents phenotypic data to the progeny dataset}
+F1Dt2 <- left_join(F1Dt, ParentsF1Dt, by = c("mother" = "ID"), suffix = c("", ".mother")) %>%
+  left_join(., ParentsF1Dt, by = c("father" = "ID"), suffix = c("", ".father")) %>%
+  dplyr::mutate(pheno.ParMean = (pheno.mother + pheno.father)/2,
+                Pop = "F1")
+
+F2Dt2 <- left_join(F2Dt, ParentsF1Dt, by = c("mother" = "ID"), suffix = c("", ".mother")) %>%
+  left_join(., ParentsF1Dt, by = c("father" = "ID"), suffix = c("", ".father")) %>%
+  dplyr::mutate(pheno.ParMean = (pheno.mother + pheno.father)/2,
+                Pop = "F2")
+
+Data <- rbind(F1Dt2, F2Dt2)
+```
+
+<div id="P6" />
+
+### Figure of the regression of the F1 and F2 progeny by it parent mean
+```{r Figure, message = TRUE}
+Data %>% 
+  ggplot(aes(x = pheno.ParMean, y = pheno, color = Pop)) +
+  geom_point() +
+  geom_smooth(method = "lm", alpha = 0.25) +
+  geom_abline(intercept = 0, slope = 1, color = "red") +
+  theme_bw() + xlab("Parent Mean") + ylab("Progeny")
+```
+
+<div id="P7" />
+
+### Estimation of the regression coefficient
+```{r regression coefficient, message = TRUE}
+Data %>% filter(Pop == "F1") %>%
+  lm(formula = .$pheno ~ .$'pheno.ParMean') %>%
+  coefficients %>% .[1] %>% round(., digits = 2) %>%
+  paste("The observed broad sense heritability is", .,
+        "while the expected was", SP$varG/(SP$varG + SP$varE), sep = " ")
+```
+
+[Menu](#menu)
+
+[Home](LucSolutions.html)

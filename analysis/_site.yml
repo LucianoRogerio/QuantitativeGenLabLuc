@@ -6,7 +6,13 @@ navbar:
   - text: Home
     href: index.html
   - text: "Luciano Solutions"
-    href: LucSolutions.html
+    menu: 
+     - text: Home
+       href: LucSolutions.html
+     - text: "Homework 1"
+       href: Lab1.html
+     - text: "Homework 2"
+       href: Lab2.html
   - text: LabClasses
     href: LabClasses.html
   - text: About
